@@ -42,7 +42,7 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Build site (strict: warnings fail the build)
+      - name: "Build site (strict: warnings fail the build)"
         run: mkdocs build --strict
 
       - name: Audit internal links and anchors
