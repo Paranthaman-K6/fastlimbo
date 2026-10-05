@@ -1,0 +1,29 @@
+# Build artifacts
+build/
+*.o
+
+# Test binaries (built by make test)
+build/test_*
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.temp
