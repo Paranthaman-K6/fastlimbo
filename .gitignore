@@ -27,3 +27,10 @@ __pycache__/
 # Temporary files
 *.tmp
 *.temp
+
+# Internal working notes (not part of the published source)
+TODO.md
+docs/*-notes.md
+docs/research/
+wiki/_Sidebar.md
+wiki/_Footer.md

@@ -7,7 +7,7 @@ SRC := $(shell find src -name '*.cpp') third_party/miniz.c
 OBJ := $(SRC:%.cpp=build/obj/%.o)
 BIN := build/limbo
 
-TEST_BINS := build/test_varint build/test_buffer build/test_velocity build/test_nbt build/test_registry build/test_void_chunk build/test_play build/test_limits build/test_schematic build/test_versions
+TEST_BINS := build/test_varint build/test_buffer build/test_velocity build/test_nbt build/test_registry build/test_void_chunk build/test_play build/test_limits build/test_schematic build/test_versions build/test_miniz
 
 .PHONY: all clean test
 
@@ -57,6 +57,10 @@ build/test_schematic: tests/test_schematic.cpp src/world/schematic.cpp third_par
 	@mkdir -p build
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
+build/test_miniz: tests/test_miniz.cpp third_party/miniz.c
+	@mkdir -p build
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
 build/test_versions: tests/test_versions.cpp
 	@mkdir -p build
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
@@ -72,6 +76,7 @@ test: $(BIN) $(TEST_BINS)
 	./build/test_limits
 	./build/test_schematic
 	./build/test_versions
+	./build/test_miniz
 	python3 tests/test_velocity_hmac.py
 
 clean:

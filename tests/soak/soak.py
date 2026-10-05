@@ -184,17 +184,11 @@ class Conn:
         except OSError as e:
             raise ProtocolError("send: %s" % e)
 
-    def send_raw(self, data):
-        try:
-            self.sock.sendall(data)
-        except OSError as e:
-            raise ProtocolError("send: %s" % e)
-
     def wait_readable(self, timeout):
         """True if readable, False on timeout, ProtocolError on peer error."""
         try:
             r, _, _ = select.select([self.sock], [], [], timeout)
-        except (OSError, ValueError) as e:
+        except (OSError, ValueError, TypeError) as e:
             raise ProtocolError("select: %s" % e)
         if not r:
             return False
@@ -442,6 +436,9 @@ def phase_latency(host, port, count, log):
         except (ProtocolError, Timeout, OSError) as e:
             if not entry["reason"]:
                 entry["reason"] = "%s: %s" % (type(e).__name__, e)
+        except Exception as e:  # keep the sequential run going
+            entry["ok"] = False
+            entry["reason"] = "unexpected %s: %s" % (type(e).__name__, e)
         finally:
             if conn:
                 conn.close()
@@ -556,6 +553,9 @@ def holder(host, port, index, state, ramp_s):
         if isinstance(e, OSError) and getattr(e, "errno", None) in (errno.ECONNREFUSED, errno.ECONNRESET):
             entry["reason"] = "connect rejected (%s) - server cap/backlog?" % errno.errorcode.get(
                 e.errno, e.errno)
+    except Exception as e:  # never lose a holder to an unexpected error
+        entry["ok"] = False
+        entry["reason"] = "unexpected %s: %s" % (type(e).__name__, e)
     finally:
         if conn:
             conn.close()
@@ -627,13 +627,25 @@ def phase_holders(host, port, count, hold_s, ramp_ms, rss, log):
         threads.append(th)
 
     # Watch for completion; the hold starts when the last holder reaches Play.
+    # Two guards keep a server-side cap (max_players / listen backlog) from
+    # stalling the run: an absolute deadline and a stall detector.
     deadline = time.monotonic() + max(120.0, 30.0 + est_span)
+    stall_s = max(15.0, 5.0 + est_span)
+    best, best_at = 0, time.monotonic()
     while True:
         joined_seen, last_join_at = state.joined()
         if joined_seen >= count:
             break
-        if time.monotonic() > deadline:
-            log("  ! ramp timeout, starting hold with %d/%d joined" % (joined_seen, count))
+        if joined_seen > best:
+            best, best_at = joined_seen, time.monotonic()
+        now = time.monotonic()
+        if now > deadline:
+            log("  ! ramp deadline hit, starting hold with %d/%d joined"
+                % (joined_seen, count))
+            break
+        if now - best_at > stall_s:
+            log("  ! ramp stalled at %d/%d for %.0fs, starting hold anyway"
+                % (joined_seen, count, now - best_at))
             break
         time.sleep(0.05)
 
@@ -831,15 +843,21 @@ def main(argv=None):
     summary = summarize(latency, holders, state, rss, rss_before, rss_after, args.hold)
 
     failures = summary["phase1"]["failed"] + summary["phase2"]["failed"]
-    capped = [e for e in holders if "rejected" in e["reason"] or "no play burst" in e["reason"]]
+    n_holders = summary["phase2"]["total"]
+    n_failed_holders = summary["phase2"]["failed"]
     print("\n=== verdict ===")
     print("failures: %d (max tolerated %d)" % (failures, args.max_failures))
-    if capped:
-        print("hint: %d holders never reached Play. tcp_server rejects when "
-              "online >= max_players and listen(2) backlog is 128 - raise "
-              "max_players in config/limbo.properties (default 100), raise the "
-              "backlog, or pass --max-failures %d."
-              % (len(capped), len(capped)))
+    # A server-side cap shows up as refused connects, or as accepted-then-EOF
+    # (tcp_server accepts, then closes when online >= max_players), or as a
+    # login that never reaches Play.
+    if n_failed_holders and n_failed_holders >= max(1, n_holders // 4):
+        print("hint: %d of %d holders failed to reach Play. tcp_server rejects when "
+              "online >= max_players (config/limbo.properties default 100) and "
+              "listens with backlog 128, so >100 concurrent logins cannot all be "
+              "accepted. Raise max_players and the listen(2) backlog in src/server/"
+              "tcp_server.cpp, then re-run --holders %d." % (n_failed_holders, n_holders))
+        print("      (or accept the cap for this run with --max-failures %d)"
+              % n_failed_holders)
     print("SOAK " + ("PASS" if failures <= args.max_failures else "FAIL"))
 
     if args.json:

@@ -59,8 +59,9 @@ See **[Testing](wiki/Testing)** for full test guide.
 | **User Guide** | [Getting Started](wiki/Getting-Started) • [Configuration](wiki/Configuration) • [Velocity Forwarding](wiki/Velocity-Forwarding) |
 | **Technical** | [Architecture](wiki/Architecture) • [Protocol Support](wiki/Protocol-Support) • [Void World](wiki/Void-World) • [Schematic Support](wiki/Schematic-Support) |
 | **Operations** | [Hardening & Security](wiki/Hardening-Security) • [Testing](wiki/Testing) • [Troubleshooting](wiki/Troubleshooting) |
-| **Development** | [Development](wiki/Development) • [TODO.md](TODO.md) |
+| **Development** | [Development](wiki/Development) |
 
 ## License
 
-MIT — see `LICENSE` (to be added).
+MIT — see [LICENSE](LICENSE). Author and maintainer: **Paranthaman**
+(<paranthaman@example.com>, [@Paranthaman-K6](https://github.com/Paranthaman-K6)).

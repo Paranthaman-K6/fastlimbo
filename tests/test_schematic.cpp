@@ -32,10 +32,33 @@ int main() {
     printf("PASS: Schem defaults are zeroed\n");
   }
 
-  // Test 4: loadSchem with gzip-compressed minimal v2 schem
-  // Construct a minimal .schem v2: 2x1x1 stone+air
-  // We'll use Python to create the gzip file, then test loading it.
-  // For now, skip and document.
+  // Test 4: load the real spec-compliant fixture (tools/gen_spawn_schem.py).
+  {
+    limbo::schem::Error err;
+    auto s = limbo::schem::loadSchem("tests/data/spawn.schem", err);
+    assert(s && "spawn.schem must load");
+    assert(s->w == 8 && s->h == 3 && s->l == 8);
+    assert(s->palette.size() == 3);
+    assert(s->palette[0] == "minecraft:air" && s->palette[1] == "minecraft:stone" &&
+           s->palette[2] == "minecraft:glass");
+    assert(s->blocks.size() == 8 * 3 * 8);
+    auto at = [&](int x, int y, int z) { return s->blocks[(y * s->l + z) * s->w + x]; };
+    assert(at(0, 0, 0) == 1 && at(7, 0, 7) == 1);  // stone floor
+    assert(at(0, 1, 0) == 2 && at(7, 1, 7) == 2);  // glass pillars
+    assert(at(1, 1, 1) == 0 && at(4, 2, 4) == 0);  // air
+    int ax, ay, az, bx, by, bz;
+    assert(limbo::schem::pasteBounds(*s, ax, ay, az, bx, by, bz));
+    assert(ax == 0 && ay == 0 && az == 0 && bx == 7 && by == 2 && bz == 7);
+    printf("PASS: spawn.schem loads with correct content\n");
+  }
+
+  // Test 5: corrupt gzip must fail, not crash.
+  {
+    limbo::schem::Error err;
+    auto s = limbo::schem::loadSchem("tests/data/rand.bin.gz", err);
+    assert(!s && "random gzip is not a schem");
+    printf("PASS: corrupt input rejected\n");
+  }
 
   printf("PASS: test_schematic public API ok\n");
   printf("test_schematic ok\n");
