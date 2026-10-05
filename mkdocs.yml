@@ -25,6 +25,15 @@ repo_name: Paranthaman-K6/limbo
 repo_url: https://github.com/Paranthaman-K6/limbo
 edit_uri: edit/main/wiki/
 
+# Material renders the footer copyright from the *top-level* `copyright` key
+# (config.copyright), not from extra.footer or extra.copyright. Both of those
+# are silently ignored, which is what left the footer empty.
+copyright: >-
+  <strong>limbo-c++</strong> &mdash; proprietary software, all rights reserved.
+  No permission to copy or redistribute. Copyright &copy; 2026
+  <a href="https://github.com/Paranthaman-K6">Paranthaman</a>.
+  See <a href="https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE">LICENSE</a>.
+
 theme:
   name: material
   language: en
@@ -107,13 +116,8 @@ extra:
       link: https://github.com/Paranthaman-K6/limbo
       name: limbo-c++ on GitHub
     - icon: fontawesome/brands/python
-      link: https://github.com/Paranthaman-K6/limbo/tree/main/tests
-      name: Test harness
-  footer: >-
-    <strong>limbo-c++</strong> &mdash; proprietary software, all rights reserved.
-    No permission to copy or redistribute. Copyright &copy; 2026
-    <a href="https://github.com/Paranthaman-K6">Paranthaman</a>. See
-    <a href="https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE">LICENSE</a>.
+      link: https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE
+      name: License
 
 nav:
   - Home: Home.md
