@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 // Exact per-PVN packet IDs verified against minecraft-data protocol.json
 // (exact-minor dirs). Guards the tables in src/protocol/versions.h.
 #include <cassert>

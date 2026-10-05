@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #include "server/connection.h"
 #include <poll.h>
 #include <sys/socket.h>
@@ -125,9 +130,7 @@ void enterPlay(int fd, const Config& cfg, int pvn, security::Limiter* lim) {
   // packets are drained and ignored; only KeepAlive echo refreshes the timer.
   int keepAliveSb = proto::playKeepAliveServerbound(pvn);
   int64_t kaId = (static_cast<int64_t>(rand()) << 32) | rand();
-  auto kaBody = [&] {
-    proto::Writer w; w.i64(kaId); return w.b;
-  };
+  auto kaBody = [&] { return play::keepAliveBody(pvn, kaId); };
   if (!sendBody(ids.keepAlive, kaBody())) { close(fd); return; }
   auto lastSend = std::chrono::steady_clock::now();
   auto lastEcho = lastSend;
@@ -147,9 +150,15 @@ void enterPlay(int fd, const Config& cfg, int pvn, security::Limiter* lim) {
       // if the client closed, the next KeepAlive send will fail.
       continue;
     }
-    if (rid == keepAliveSb && rbody.size() == 8) {
+    if (rid == keepAliveSb) {
       proto::Reader r(rbody);
-      if (r.ok && r.i64() == kaId) lastEcho = std::chrono::steady_clock::now();
+      bool echoOk = false;
+      if (pvn == 47) {
+        echoOk = r.ok && (r.varInt() == static_cast<int32_t>(kaId & 0x7FFFFFFF));
+      } else if (rbody.size() == 8) {
+        echoOk = r.ok && r.i64() == kaId;
+      }
+      if (echoOk) lastEcho = std::chrono::steady_clock::now();
     }
     // all other serverbound packets (movement, teleport confirm, chat): ignore.
   }
@@ -257,17 +266,45 @@ void handleConnection(int fd, std::string peerIp, const Config& cfg, int onlineC
     enterPlay(fd, cfg, pvn, &lim);
     return;
   }
-  // Configuration path (1.20.2+): LoginAcknowledged -> RegistryData -> Finish
-  // -> await Finish ack -> Play burst (void + keepalive).
+  // Configuration path (1.20.2+): LoginAck -> [Settings] -> RegistryData ->
+  // Finish -> Finish ack -> Play burst (void + keepalive).
   if (!readPacket(fd, cfg.readTimeoutMs, cfg.maxPacketBytes, id, body, &lim) || id != 0x03) { close(fd); return; }
   {
     auto ids = registry::configIds(pvn);
+    // Vanilla clients send Client Information (Settings, 0x00) immediately on
+    // entering Configuration — possibly before our burst. Drain anything that
+    // already arrived (200ms grace), then send. poll() tells a dead peer
+    // (HUP/ERR) from an idle one, so this never spins.
+    for (int i = 0; i < 4; ++i) {
+      pollfd pp{fd, POLLIN, 0};
+      if (poll(&pp, 1, 200) <= 0) break;
+      if (!(pp.revents & POLLIN)) break;
+      int32_t did;
+      std::vector<uint8_t> dbody;
+      if (!readPacket(fd, 2000, cfg.maxPacketBytes, did, dbody, &lim)) break;
+    }
     for (auto& blob : registry::buildRegistryBlobs(pvn)) {
       if (!writeAll(fd, proto::framePacket(ids.registryData, blob))) { close(fd); return; }
     }
     if (!writeAll(fd, proto::framePacket(ids.finish, registry::buildFinish(pvn)))) { close(fd); return; }
+    // Await the Finish ack; tolerate stragglers (late Settings etc.).
+    // Bounded by readTimeoutMs; HUP/ERR closes fast, idle slices continue.
     int ackId = registry::configFinishAckId(pvn);
-    if (!readPacket(fd, cfg.readTimeoutMs, cfg.maxPacketBytes, id, body, &lim) || id != ackId) { close(fd); return; }
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(cfg.readTimeoutMs);
+    bool acked = false;
+    int ignored = 0;
+    while (std::chrono::steady_clock::now() < deadline && ignored < 16) {
+      pollfd pp{fd, POLLIN, 0};
+      int pr = poll(&pp, 1, 1000);
+      if (pr < 0) break;
+      if (pr == 0) continue;
+      if (pp.revents & (POLLERR | POLLHUP | POLLNVAL)) break;
+      if (!(pp.revents & POLLIN)) break;
+      if (!readPacket(fd, 5000, cfg.maxPacketBytes, id, body, &lim)) break;
+      if (id == ackId) { acked = true; break; }
+      ++ignored;
+    }
+    if (!acked) { close(fd); return; }
   }
   enterPlay(fd, cfg, pvn, &lim);
   return;

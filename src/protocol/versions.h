@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #pragma once
 // Exact per-PVN packet IDs, verified 2026-10-05 against PrismarineJS minecraft-data
 // protocol.json for the exact minor dirs (1.8, 1.12, 1.12.1, 1.12.2, 1.13, 1.14,

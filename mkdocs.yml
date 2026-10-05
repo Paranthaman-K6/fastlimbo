@@ -110,9 +110,10 @@ extra:
       link: https://github.com/Paranthaman-K6/limbo/tree/main/tests
       name: Test harness
   footer: >-
-    <strong>limbo-c++</strong> &mdash; lightweight Minecraft Limbo backend (C++20).
-    Author and maintainer: <a href="https://github.com/Paranthaman-K6">Paranthaman</a>.
-    MIT licensed.
+    <strong>limbo-c++</strong> &mdash; proprietary software, all rights reserved.
+    No permission to copy or redistribute. Copyright &copy; 2026
+    <a href="https://github.com/Paranthaman-K6">Paranthaman</a>. See
+    <a href="https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE">LICENSE</a>.
 
 nav:
   - Home: Home.md

@@ -6,13 +6,23 @@
 </p>
 
 <p align="center">
+  <img alt="Proprietary" src="https://img.shields.io/badge/license-PROPRIETARY-ff4d4d?style=flat-square&labelColor=1e1e1e">
+  <img alt="All rights reserved" src="https://img.shields.io/badge/all%20rights%20reserved-ff4d4d?style=flat-square&labelColor=1e1e1e">
+  <img alt="No license" src="https://img.shields.io/badge/license-NONE-ff4d4d?style=flat-square&labelColor=1e1e1e">
   <a href="https://github.com/Paranthaman-K6/limbo/actions/workflows/docs.yml"><img alt="Docs" src="https://img.shields.io/badge/docs-live-00ffff?style=flat-square&labelColor=1e1e1e"></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-00ffff?style=flat-square&labelColor=1e1e1e"></a>
   <img alt="Language" src="https://img.shields.io/badge/C%2B%2B-20-0066ff?style=flat-square&labelColor=1e1e1e">
   <img alt="PVN" src="https://img.shields.io/badge/protocol-47...774-0066ff?style=flat-square&labelColor=1e1e1e">
   <img alt="Deps" src="https://img.shields.io/badge/deps-OpenSSL%20libcrypto-0066ff?style=flat-square&labelColor=1e1e1e">
-  <img alt="License" src="https://img.shields.io/github/license/Paranthaman-K6/limbo?style=flat-square&labelColor=0066ff">
 </p>
+
+> [!WARNING]
+> **This project is proprietary software with all rights reserved. It is not
+> licensed under any open-source license, and no permission is granted to copy,
+> modify, or redistribute it.** Every source file carries this notice, so it
+> travels with any copy. Reading and learning from the code is welcome;
+> redistributing or building on it is not. See [LICENSE](LICENSE) for terms and
+> [CLA.md](CLA.md) to contribute.
+
 
 <p align="center">
   <a href="https://Paranthaman-K6.github.io/limbo/"><strong>📖 Documentation</strong></a>
@@ -216,11 +226,16 @@ mkdocs serve      # http://127.0.0.1:8000/limbo/
 
 ## License
 
-**MIT** — see [LICENSE](LICENSE).
+**Proprietary — all rights reserved.** Not open source. See
+[LICENSE](LICENSE) and [NOTICE](NOTICE).
 
-Author and maintainer: **Paranthaman**
-([@Paranthaman-K6](https://github.com/Paranthaman-K6)).
+No permission is granted to copy, modify, or redistribute this project. If you
+want to use it, contribute, or license it, ask first — see
+[CLA.md](CLA.md) for the contribution terms.
 
-`third_party/miniz.c` is public domain (CC0). Protocol details were derived from
-publicly documented behaviour and reference implementations; no third-party
-source was vendored. See [LICENSE](LICENSE) for full credits.
+Copyright © 2026 Paranthaman ([@Paranthaman-K6](https://github.com/Paranthaman-K6)).
+"limbo-c++" and the project logo are trademarks of the copyright holder.
+
+`third_party/miniz.c` is public domain (CC0) and separately licensed.
+Protocol details were derived from publicly documented behaviour; no
+third-party source was vendored.

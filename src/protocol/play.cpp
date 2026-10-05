@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #include "protocol/play.h"
 #include "protocol/buffer.h"
 #include "protocol/codec_data.h"
@@ -288,8 +293,17 @@ std::vector<uint8_t> centerChunkBody(int pvn, int chunkX, int chunkZ) {
   return w.b;
 }
 
-std::vector<uint8_t> batchStartBody(int /*pvn*/) { return {}; }
+std::vector<uint8_t> keepAliveBody(int pvn, int64_t keepAliveId) {
+  limbo::proto::Writer w;
+  if (pvn == 47) {
+    w.varInt(static_cast<int32_t>(keepAliveId & 0x7FFFFFFF));
+  } else {
+    w.i64(keepAliveId);
+  }
+  return w.b;
+}
 
+std::vector<uint8_t> batchStartBody(int /*pvn*/) { return {}; }
 std::vector<uint8_t> batchFinishedBody(int /*pvn*/, int batchSize) {
   limbo::proto::Writer w;
   w.varInt(batchSize);

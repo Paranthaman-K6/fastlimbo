@@ -9,6 +9,7 @@ on:
       - "mkdocs.yml"
       - "requirements-docs.txt"
       - "tools/check_site_links.py"
+      - "tools/add_copyright_header.py"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -49,6 +50,9 @@ jobs:
         # --base is the deployment path from site_url in mkdocs.yml
         # (project Pages sites are served from /<repo>/).
         run: python3 tools/check_site_links.py site --base /limbo/
+
+      - name: Verify copyright headers are present
+        run: python3 tools/add_copyright_header.py --check
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

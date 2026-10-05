@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #pragma once
 // Play packet body builders (workstream A).
 // All functions return packet BODIES only — no packet id, no length prefix.
@@ -27,6 +32,9 @@ std::vector<uint8_t> gameEventBody(int pvn, int event, float value);
 
 // Center Chunk body (chunkX, chunkZ). Empty for pre-1.14.
 std::vector<uint8_t> centerChunkBody(int pvn, int chunkX, int chunkZ);
+
+// KeepAlive request body: VarInt id on 1.8, i64 afterwards.
+std::vector<uint8_t> keepAliveBody(int pvn, int64_t keepAliveId);
 
 // Chunk Batch Start body (empty) and Chunk Batch Finished body (batch size).
 // Only used on 1.20.2+ (batchStart/batchFinished IDs from playIds).

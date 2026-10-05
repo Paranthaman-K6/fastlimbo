@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #pragma once
 // Velocity modern forwarding verification (HMAC-SHA256, constant-time compare).
 // Layout: HMAC(32) + VarInt version(1..4) + String address + UUID(16) + String username

@@ -1,3 +1,8 @@
+# limbo-c++ — proprietary software, all rights reserved.
+# Copyright (c) 2026 Paranthaman
+# See LICENSE. No permission is granted to copy, modify, or redistribute
+# this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #!/usr/bin/env python3
 """Raw-socket integration: status ping + offline login against live limbo (v0.1)."""
 import socket, struct, sys, json

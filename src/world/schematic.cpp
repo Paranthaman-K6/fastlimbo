@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 // Sponge .schem v2 reader (v3 nested shape also accepted).
 // Standard NBT (big-endian, u16 names), gzip via third_party/miniz.
 // Caps enforced before big allocations: dims <= 256, total <= 1M blocks,

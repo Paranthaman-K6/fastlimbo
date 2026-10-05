@@ -58,4 +58,21 @@ Progress is tracked on an internal task board; the per-component state table abo
 
 ## License
 
-MIT — see [LICENSE](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE). Author and maintainer: [**Paranthaman**](https://github.com/Paranthaman-K6).
+!!! warning "Proprietary — all rights reserved"
+    **This project is not open source.** No permission is granted to copy,
+    modify, or redistribute it, in whole or in part. Every source file carries
+    a copyright notice, so the reservation travels with any copy.
+
+    Reading and learning from this project is welcome. Copying,
+    redistributing, or building on it is not — ask first.
+
+    Full terms in [`LICENSE`](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE)
+    and [`CLA.md`](https://github.com/Paranthaman-K6/limbo/blob/main/CLA.md).
+
+    Copyright © 2026 Paranthaman
+    ([@Paranthaman-K6](https://github.com/Paranthaman-K6)). "limbo-c++" and the
+    project logo are trademarks of the copyright holder.
+
+    `third_party/miniz.c` is public domain (CC0) and separately licensed.
+
+Copyright © 2026 Paranthaman. All rights reserved.

@@ -1,3 +1,8 @@
+# limbo-c++ — proprietary software, all rights reserved.
+# Copyright (c) 2026 Paranthaman
+# See LICENSE. No permission is granted to copy, modify, or redistribute
+# this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #!/usr/bin/env python3
 """Malformed-packet fuzzer (lead takeover of D remainder): server must disconnect,
 never crash/hang. After each case a clean status ping must succeed (liveness).

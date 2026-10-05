@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #include "world/void_chunk.h"
 
 #include <mutex>
@@ -16,16 +21,18 @@
 
 namespace {
 
-// Minimal inline NBT: TAG_Compound(10) + u16(0) empty name, one
+// Minimal inline NBT: TAG_Compound(10) + optional u16(0) root name, one
 // TAG_Long_Array(12) "MOTION_BLOCKING" i32(37) + 37 zero i64, TAG_End(0).
-// Pre-1.21.5 heightmap layout (named NBT eras).
-std::vector<uint8_t> heightmapNbt() {
+// Pre-1.21.5 heightmap layout. "nbt" fields (<=1.20.1) carry the empty root
+// name; "anonymousNbt" fields (1.20.2+) omit it.
+std::vector<uint8_t> heightmapNbt(bool anonymous) {
   limbo::proto::Writer w;
   w.u8(10);
-  w.u16(0);
+  if (!anonymous) w.u16(0);
   w.u8(12);
-  w.u16(13);
-  w.bytes(reinterpret_cast<const uint8_t*>("MOTION_BLOCKING"), 13);
+  const char* kName = "MOTION_BLOCKING";  // 15 chars
+  w.u16(15);
+  w.bytes(reinterpret_cast<const uint8_t*>(kName), 15);
   w.i32(37);
   for (int i = 0; i < 37; ++i) w.i64(0);
   w.u8(0);
@@ -174,10 +181,15 @@ std::vector<uint8_t> buildChunkBody(int pvn, int chunkX, int chunkZ,
     case proto::Era::V1_16_0:
     case proto::Era::V1_16_2:
       w.boolean(true);   // ground-up
-      w.boolean(true);   // ignore old data
+      if (e == proto::Era::V1_16_0) w.boolean(true);  // ignoreOldData (735/736 only)
       w.varInt(0);       // no sections (absent = air)
-      w.bytes(heightmapNbt());
-      for (int i = 0; i < 1024; ++i) w.i32(0);  // biomes
+      w.bytes(heightmapNbt(false));  // "nbt": named root
+      if (e == proto::Era::V1_16_0) {
+        for (int i = 0; i < 1024; ++i) w.i32(0);  // biomes (fixed, ground-up)
+      } else {
+        w.varInt(1024);  // 1.16.2+: varint-counted biome array
+        for (int i = 0; i < 1024; ++i) w.varInt(0);
+      }
       w.varInt(0);       // chunk data length
       w.varInt(0);       // block entities
       break;
@@ -185,7 +197,7 @@ std::vector<uint8_t> buildChunkBody(int pvn, int chunkX, int chunkZ,
       // 1.17: i64-array bitmask. 1.18+: full sections below.
       if (pvn < 757) {
         w.varInt(0);  // bitmask longs: none
-        w.bytes(heightmapNbt());
+        w.bytes(heightmapNbt(false));  // "nbt": named root
         w.varInt(0);  // biomes: none
         w.varInt(0);  // chunk data
         w.varInt(0);  // block entities
@@ -204,7 +216,7 @@ std::vector<uint8_t> buildChunkBody(int pvn, int chunkX, int chunkZ,
         w.varInt(37);
         for (int i = 0; i < 37; ++i) w.i64(0);
       } else {
-        w.bytes(heightmapNbt());
+        w.bytes(heightmapNbt(pvn >= 764));  // anonymousNbt from 1.20.2
       }
       proto::Writer sections;
       const bool overlay =

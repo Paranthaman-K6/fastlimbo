@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #pragma once
 // Minimal big-endian NBT *writer* (no reader needed: we only emit payloads).
 // Used by Configuration RegistryData (1.20.2+) and modern TextComponent NBT.

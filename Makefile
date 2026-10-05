@@ -1,3 +1,8 @@
+# limbo-c++ — proprietary software, all rights reserved.
+# Copyright (c) 2026 Paranthaman
+# See LICENSE. No permission is granted to copy, modify, or redistribute
+# this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 CXX ?= g++
 CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra -Wpedantic -Isrc -I. -Ithird_party
 LDFLAGS ?= -lcrypto -pthread

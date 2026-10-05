@@ -1,3 +1,8 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 // miniz inflate verification: python-zlib-generated fixtures (stored, fixed,
 // dynamic Huffman, gzip + zlib wrappers) must round-trip byte-exact.
 // Fixtures in tests/data/ (*.bin = expected output).

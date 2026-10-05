@@ -31,6 +31,9 @@ __pycache__/
 # Tooling scratch output (screenshots, session artifacts)
 .openchamber/
 
+# MkDocs build output (deployed by CI, never committed)
+site/
+
 # Internal working notes (not part of the published source)
 TODO.md
 docs/*-notes.md

@@ -1,3 +1,8 @@
+# limbo-c++ — proprietary software, all rights reserved.
+# Copyright (c) 2026 Paranthaman
+# See LICENSE. No permission is granted to copy, modify, or redistribute
+# this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #!/usr/bin/env python3
 """Rewrite wiki links that escape docs_dir for the GitHub Pages (MkDocs) build.
 
@@ -42,7 +47,7 @@ EDITS = [
         "\u2022 [MIT License](../LICENSE)",
         "[GitHub](https://github.com/Paranthaman-K6/limbo) "
         "\u2022 [Issues](https://github.com/Paranthaman-K6/limbo/issues) "
-        "\u2022 [MIT License](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE)",
+        "\u2022 [License](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE)",
     ),
     # ---- published source links ------------------------------------------
     (
@@ -113,7 +118,7 @@ EDITS = [
     (
         "Home.md",
         "MIT \u2014 see [LICENSE](../LICENSE) (to be added).",
-        "MIT \u2014 see [LICENSE]"
+        "Proprietary \u2014 all rights reserved. See [LICENSE]"
         f"({BLOB}/LICENSE). Author and maintainer: "
         "[**Paranthaman**](https://github.com/Paranthaman-K6).",
     ),

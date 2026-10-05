@@ -1,4 +1,12 @@
+// limbo-c++ — proprietary software, all rights reserved.
+// Copyright (c) 2026 Paranthaman
+// See LICENSE. No permission is granted to copy, modify, or redistribute
+// this file. Contact Paranthaman-K6@users.noreply.github.com for permission.
+
 #include "protocol/packets.h"
+
+#include <cstdio>
+
 #include "protocol/buffer.h"
 
 namespace limbo::packets {
@@ -35,19 +43,30 @@ static void writeAnonymousNbtString(proto::Writer& w, const std::string& json) {
 }
 
 std::vector<uint8_t> loginDisconnectBody(int pvn, const std::string& message) {
+  (void)pvn;  // Login-state reason is a JSON string in every version.
   std::string json = "{\"text\":\"" + jsonEscape(message) + "\"}";
   proto::Writer w;
-  if (pvn >= 765) writeAnonymousNbtString(w, json);  // 1.20.3+ NBT
-  else w.str(json);
+  w.str(json);
   return w.b;
 }
 
 std::vector<uint8_t> loginSuccessBody(int pvn, const std::array<uint8_t,16>& uuid,
                                       const std::string& username) {
   proto::Writer w;
-  w.uuid(uuid);
+  if (pvn < 735) {
+    // Pre-1.16 Login Success carries the UUID as a dashed string.
+    char s[37];
+    snprintf(s, sizeof(s),
+             "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+             uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
+             uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14], uuid[15]);
+    w.str(s);
+  } else {
+    w.uuid(uuid);
+  }
   w.str(username);
-  if (pvn >= 759) w.varInt(0);  // 1.19+ properties count
+  if (pvn >= 759) w.varInt(0);            // 1.19+ properties (none)
+  if (pvn >= 766) w.boolean(false);       // 1.20.5+ strict error handling
   return w.b;
 }
 
