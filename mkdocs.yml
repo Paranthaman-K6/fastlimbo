@@ -14,6 +14,13 @@ exclude_docs: |
   _Sidebar.md
   _Footer.md
 
+# MkDocs only serves the site root from index.md, but the *native* GitHub wiki
+# requires Home.md. index.md is a symlink to Home.md so both roots work:
+#   Pages  -> /limbo/       (index.md)
+#   GitHub -> wiki/Home.md
+not_in_nav: |
+  /index.md
+
 repo_name: Paranthaman-K6/limbo
 repo_url: https://github.com/Paranthaman-K6/limbo
 edit_uri: edit/main/wiki/
