@@ -1,6 +1,6 @@
 # Schematic Support
 
-> **Status:** 🟡 In progress — see [TODO.md](../TODO.md) agent C/schematic
+> **Status:** 🟡 In progress — tracked on the internal task board.
 > **Spec:** [Sponge Schematic Specification v2](https://github.com/SpongePowered/Schematic-Specification)
 
 ---
@@ -14,7 +14,7 @@
 | `.litematic` (Litematica) | 🔲 Deferred | Region entities, pending ticks, separate spec drift |
 | `.mca` (Anvil region) | 🔲 Deferred | Full region/chunk/heightmap/light reconstruction |
 
-**Decision recorded in** [docs/research/limbo-references.md §4](../docs/research/limbo-references.md#4-schematic-scope-decision).
+**Decision:** the Sponge `.schem` v2 reader targets the narrow case only — a single pasted schematic at spawn, inflated with the bundled [`third_party/miniz`](https://github.com/Paranthaman-K6/limbo/tree/main/third_party) deflate implementation. Full block palettes and NBT-driven schematics are explicitly out of scope.
 
 ---
 
@@ -189,8 +189,8 @@ std::vector<uint8_t> decompressGzip(const std::vector<uint8_t>& gz) {
 
 ## Related
 
-- [Void World](Void-World) — fallback when no schematic
-- [Configuration](Configuration) — `schematic_path`, offsets
-- [Hardening & Security](Hardening-Security) — size caps, parse limits
-- [docs/schematic-notes.md](../docs/schematic-notes.md) — raw research notes
+- [Void World](Void-World.md) — fallback when no schematic
+- [Configuration](Configuration.md) — `schematic_path`, offsets
+- [Hardening & Security](Hardening-Security.md) — size caps, parse limits
+- [Schematic Specification](https://github.com/SpongePowered/Schematic-Specification) — upstream format spec
 - [Sponge Schematic Spec](https://github.com/SpongePowered/Schematic-Specification)

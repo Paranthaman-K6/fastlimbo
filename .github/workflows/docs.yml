@@ -1,0 +1,67 @@
+name: Deploy wiki to GitHub Pages
+
+# wiki/ is the documentation source of truth; mkdocs.yml builds it to Pages.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "wiki/**"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
+      - "tools/check_site_links.py"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; supersede in-progress ones.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-docs.txt
+
+      - name: Install docs dependencies
+        run: pip install -r requirements-docs.txt
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build site (strict: warnings fail the build)
+        run: mkdocs build --strict
+
+      - name: Audit internal links and anchors
+        # --base is the deployment path from site_url in mkdocs.yml
+        # (project Pages sites are served from /<repo>/).
+        run: python3 tools/check_site_links.py site --base /limbo/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

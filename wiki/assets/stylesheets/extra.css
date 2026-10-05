@@ -1,0 +1,157 @@
+/*
+ * limbo-c++ wiki theme — "Tech Innovation"
+ * Electric Blue #0066ff · Neon Cyan #00ffff · Dark Gray #1e1e1e · White #ffffff
+ */
+
+:root {
+  --limbo-blue: #0066ff;
+  --limbo-cyan: #00ffff;
+  --limbo-gray: #1e1e1e;
+  --limbo-white: #ffffff;
+
+  --md-primary-fg-color: var(--limbo-blue);
+  --md-primary-fg-color--light: #3388ff;
+  --md-primary-fg-color--dark: #0052cc;
+  --md-primary-bg-color: var(--limbo-blue);
+  --md-accent-fg-color: var(--limbo-cyan);
+
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --md-code-font: "JetBrains Mono", "SF Mono", ui-monospace, "Cascadia Code",
+    Menlo, Consolas, monospace;
+}
+
+/* Dark scheme: pull the electric blue down so it stays legible on #1e1e1e */
+[data-md-color-scheme="slate"] {
+  --md-hue: 215;
+
+  --md-default-bg-color: #141414;
+  --md-default-fg-color: #e8e8e8;
+  --md-default-fg-color--light: #b0b0b0;
+
+  --md-typeset-a-color: #4d9bff;
+  --md-code-fg-color: #e8e8e8;
+  --md-code-bg-color: #202020;
+
+  --md-footer-bg-color: var(--limbo-gray);
+
+  --md-primary-fg-color: #0066ff;
+  --md-primary-fg-color--light: #4d9bff;
+  --md-accent-fg-color: var(--limbo-cyan);
+}
+
+/* ---------------------------------------------------------------- header */
+
+.md-header {
+  background: linear-gradient(
+    90deg,
+    var(--limbo-gray) 0%,
+    var(--limbo-blue) 100%
+  );
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.md-search__form {
+  border-radius: 0.4rem;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.md-search__form:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.md-search__input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* --------------------------------------------------------------- typography */
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.md-typeset h1 {
+  color: var(--md-default-fg-color);
+  margin-bottom: 0.6rem;
+}
+
+.md-typeset h2 {
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  padding-bottom: 0.25rem;
+  margin-top: 2.2rem;
+}
+
+.md-typeset h3 {
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset strong {
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------- content bits */
+
+.md-typeset code {
+  font-size: 0.78em;
+  border-radius: 0.25rem;
+  background-color: rgba(0, 102, 255, 0.08);
+  padding: 0.15em 0.35em;
+}
+
+.md-typeset pre > code {
+  background-color: var(--md-code-bg-color);
+  border-left: 3px solid var(--md-primary-fg-color);
+}
+
+.md-typeset table:not([class]) {
+  border-radius: 0.35rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) th {
+  background-color: rgba(0, 102, 255, 0.12);
+  font-weight: 700;
+}
+
+.md-typeset hr {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* admonitions tinted to the palette */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 0.35rem;
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: var(--md-primary-fg-color);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: var(--md-accent-fg-color);
+}
+
+/* ----------------------------------------------------------------- footer */
+
+.md-footer {
+  background-color: var(--limbo-gray);
+}
+
+.md-footer__link {
+  color: var(--limbo-cyan);
+}
+
+/* keep the generated site from feeling cramped */
+.md-grid {
+  max-width: 88rem;
+}

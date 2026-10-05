@@ -1,6 +1,6 @@
 # Architecture
 
-> **Source of truth:** [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md) — this page is a user-friendly digest.
+> **Source of truth:** [`docs/ARCHITECTURE.md`](https://github.com/Paranthaman-K6/limbo/blob/main/docs/ARCHITECTURE.md) — this page is a user-friendly digest.
 
 ---
 
@@ -59,7 +59,7 @@
 
 ## Protocol: Data-Driven Version Tables
 
-All version logic lives in [`src/protocol/versions.h`](../src/protocol/versions.h).
+All version logic lives in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/protocol/versions.h).
 
 ### Era System
 
@@ -263,8 +263,8 @@ LDFLAGS = -lcrypto -lpthread
 
 ## Related Docs
 
-- [Protocol Support](Protocol-Support) — detailed packet tables
-- [Velocity Forwarding](Velocity-Forwarding) — HMAC flow
-- [Void World](Void-World) — chunk formats per era
-- [Hardening & Security](Hardening-Security) — limits, fuzzing
-- [Development](Development) — contributing, code style
+- [Protocol Support](Protocol-Support.md) — detailed packet tables
+- [Velocity Forwarding](Velocity-Forwarding.md) — HMAC flow
+- [Void World](Void-World.md) — chunk formats per era
+- [Hardening & Security](Hardening-Security.md) — limits, fuzzing
+- [Development](Development.md) — contributing, code style

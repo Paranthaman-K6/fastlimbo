@@ -1,21 +1,81 @@
-# limbo-c++ — lightweight Minecraft Limbo backend (C++20)
+<h1 align="center">limbo-c++</h1>
 
-Primary behind-proxy Limbo. Proxy owns auth/version translation where possible.
-See **[Wiki](wiki/Home)** for full documentation, or `docs/research/limbo-references.md` for protocol sources and `docs/ARCHITECTURE.md` for decisions.
+<p align="center">
+  <strong>Lightweight behind-proxy Minecraft Limbo backend in C++20</strong><br>
+  <sub>Handshake&nbsp;→&nbsp;join&nbsp;→&nbsp;idle&nbsp;→&nbsp;clean&nbsp;kick. No world, no auth, no plugins.</sub>
+</p>
 
-## Quick Start
+<p align="center">
+  <a href="https://github.com/Paranthaman-K6/limbo/actions/workflows/docs.yml"><img alt="Docs" src="https://img.shields.io/badge/docs-live-00ffff?style=flat-square&labelColor=1e1e1e"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-00ffff?style=flat-square&labelColor=1e1e1e"></a>
+  <img alt="Language" src="https://img.shields.io/badge/C%2B%2B-20-0066ff?style=flat-square&labelColor=1e1e1e">
+  <img alt="PVN" src="https://img.shields.io/badge/protocol-47...774-0066ff?style=flat-square&labelColor=1e1e1e">
+  <img alt="Deps" src="https://img.shields.io/badge/deps-OpenSSL%20libcrypto-0066ff?style=flat-square&labelColor=1e1e1e">
+  <img alt="License" src="https://img.shields.io/github/license/Paranthaman-K6/limbo?style=flat-square&labelColor=0066ff">
+</p>
 
-Requires: `g++ >= 12`, `make`, OpenSSL libcrypto (headers + `.so.3`).
+<p align="center">
+  <a href="https://Paranthaman-K6.github.io/limbo/"><strong>📖 Documentation</strong></a>
+  &nbsp;·&nbsp;
+  <a href="wiki/Home">Wiki source</a>
+  &nbsp;·&nbsp;
+  <a href="#quick-start">Quick start</a>
+  &nbsp;·&nbsp;
+  <a href="issues">Issues</a>
+</p>
+
+---
+
+The **proxy owns everything expensive** — authentication, version translation,
+encryption, compression, and metrics. `limbo-c++` only completes the minimal
+`Login → Play` handshake so a vanilla client can join a void world, sit idle, and
+be kicked cleanly. That division is the whole design.
+
+| The proxy handles | limbo-c++ handles |
+|-------------------|-------------------|
+| Authentication (online/offline, Mojang session) | `Handshake` + `Status` ping |
+| Version translation (so one backend spans many clients) | `Login Success` + offline-mode UUID |
+| Encryption & compression | Minimal `Play` burst into a void world |
+| Metrics, bans, permissions | `KeepAlive` + clean disconnect |
+
+**Where it fits:** holding players during maintenance, queue servers, proxy-side
+minigames, auth bridges, and protocol testing harnesses.
+
+---
+
+## Quick start
+
+Requires `g++ >= 12`, `make`, and OpenSSL libcrypto (headers + `.so.3`).
 
 ```sh
-make            # builds build/limbo
-make test       # builds + runs unit tests + HMAC vector check
+git clone https://github.com/Paranthaman-K6/limbo.git
+cd limbo
+make                 # -> build/limbo
+make test            # unit tests + HMAC vector check
 ./build/limbo --config config/limbo.properties
 ```
 
-## Config
+That's it. The server now answers pings on `0.0.0.0:25566`.
 
-`config/limbo.properties` (key=value) — **[full reference](wiki/Configuration)**:
+<details>
+<summary>Verify it with a real client handshake</summary>
+
+```sh
+python3 tests/integration/status_ping.py          # raw-socket status + login
+python3 tests/integration/ipv6_status.py          # dual-stack IPv6 bind check
+python3 tests/integration/matrix.py              # full version matrix
+```
+
+See **[Testing](https://Paranthaman-K6.github.io/limbo/Testing/)** for the full guide.
+
+</details>
+
+---
+
+## Configuration
+
+`config/limbo.properties` — plain `key=value`. Full reference in
+**[Configuration](https://Paranthaman-K6.github.io/limbo/Configuration/)**.
 
 ```properties
 bind=0.0.0.0
@@ -24,44 +84,143 @@ max_players=100
 version_name=Limbo-C++
 motd=Limbo-C++ void
 protocol_max=774
-forwarding=NONE|MODERN   # MODERN requires secret
+forwarding=NONE|MODERN   # MODERN requires a secret
 forwarding_secret=
 read_timeout_ms=30000
 max_packet_bytes=8192
 ```
 
-- `bind`: `0.0.0.0` or `::` (dual-stack IPv6), `127.0.0.1`, `::1`, or hostname.
-  Single IPv6 socket with `IPV6_V6ONLY=0` accepts both families (v4 appears as
-  `::ffff:a.b.c.d`, logged as dotted-quad). Verified over `::1` and `127.0.0.1`
-  (`tests/integration/ipv6_status.py`).
+<details>
+<summary>Binding, including dual-stack IPv6</summary>
 
-## Status
+`bind` accepts `0.0.0.0`, `::` (dual-stack), `127.0.0.1`, `::1`, or a hostname.
 
-**v0.1**: primitives + status ping + offline login + Velocity MODERN verify + void-play stub.
-Multi-version tables are data-driven in `src/protocol/versions.h` — fill from `minecraft-data` protocol.json, do not hardcode single IDs in logic.
+Binding `::` creates a **single** IPv6 socket with `IPV6_V6ONLY=0`, so it accepts
+both address families. IPv4 clients appear as `::ffff:a.b.c.d` and are logged as
+dotted-quad. Verified over `::1` and `127.0.0.1` by
+`tests/integration/ipv6_status.py`.
 
-See **[Protocol Support](wiki/Protocol-Support)** for supported versions and **[Architecture](wiki/Architecture)** for design.
+</details>
+
+### Velocity forwarding
+
+Run behind a Velocity proxy with `forwarding=MODERN` and a shared
+`forwarding_secret`, and every connection is authenticated with HMAC-SHA256
+before a single packet is trusted. See
+**[Velocity Forwarding](https://Paranthaman-K6.github.io/limbo/Velocity-Forwarding/)**.
+
+---
+
+## Protocol support
+
+Multi-version tables are **data-driven** in
+[`src/protocol/versions.h`](src/protocol/versions.h) — eras map to packet-ID
+tables, so adding a version means adding data, never editing logic.
+
+| Era | Protocol versions | Notes |
+|-----|-------------------|-------|
+| 1.8.x | 47 | Legacy handshake, no Configuration state |
+| 1.12.x | 335–340 | |
+| 1.13 – 1.15 | 393–578 | Login plugin request era |
+| 1.16 – 1.18 | 735–758 | |
+| 1.19 | 759–762 | Signed properties on Login Success |
+| 1.20.2 | 764 | **Configuration state** introduced |
+| 1.20.3 – 1.20.6 | 765–766 | Registry Data split, NBT text components |
+| 1.21.x | 767–774 | GameEvent 13, teleport-id-first position |
+
+See **[Protocol Support](https://Paranthaman-K6.github.io/limbo/Protocol-Support/)**
+for per-era packet IDs and registry layout.
+
+---
+
+## Architecture
+
+```
+proxy (auth, encryption, versions)
+        │
+        ▼
+   TCP listener ──► per-connection thread ──► state machine
+                                                  │
+                        ┌─────────────────────────┼──────────────┐
+                    Handshake              Login            Play
+                        │                     │                 │
+                    Status ping        LoginSuccess       JoinGame + void
+                                    (+ HMAC verify)      chunk + KeepAlive
+```
+
+- **Threading** — thread-per-connection, detached; no shared world state.
+- **Safety** — every read is bounds-checked, every string length is capped, and
+  every VarInt decode rejects over-long encodings.
+- **No zlib dependency** — a small public-domain inflate lives in
+  `third_party/miniz.c` for `.schem` reading.
+
+Deeper write-ups in **[Architecture](https://Paranthaman-K6.github.io/limbo/Architecture/)**
+and `docs/ARCHITECTURE.md`.
+
+---
 
 ## Testing
 
-- `make test`: C++ unit (`varint`, `buffer`, `registry`, `void_chunk`, `velocity`, `limits`, `nbt`) + Python HMAC vector.
-- `tests/integration/status_ping.py`: raw-socket handshake/status/login against live server.
-- `tests/integration/matrix.py`: full version matrix (1.8/1.12/1.16/1.19/1.20/1.21 via Velocity) — acceptance gate.
-- `tests/fuzz/fuzz_packet.py`: malformed packet corpus — 0 crashes required.
-- `tests/soak/soak.py`: 1k idle connections, 1hr — RSS < 256MB, P99 join < 50ms.
+```sh
+make test
+```
 
-See **[Testing](wiki/Testing)** for full test guide.
+| Suite | What it proves |
+|-------|----------------|
+| `tests/test_*.cpp` | Unit: varint, buffer, nbt, registry, void_chunk, velocity, limits, miniz |
+| `tests/integration/status_ping.py` | Raw-socket handshake → status → login against a live server |
+| `tests/integration/ipv6_status.py` | Dual-stack IPv6 bind accepts v4 and v6 |
+| `tests/integration/matrix.py` | **Acceptance gate** — 1.8 / 1.12 / 1.16 / 1.19 / 1.20 / 1.21 via Velocity |
+| `tests/fuzz/fuzz_packet.py` | Malformed-packet corpus — **0 crashes** required |
+| `tests/soak/soak.py` | 1k idle connections for 1hr — RSS < 256MB, P99 join < 50ms |
+
+**[Testing guide](https://Paranthaman-K6.github.io/limbo/Testing/)**
+
+---
+
+## Status
+
+**v0.1** — primitives, status ping, offline login, Velocity MODERN verification,
+and the void-play burst are done and tested. Schematic paste, rate limiting, and
+the full version matrix are in progress.
+
+The live per-component status table lives in
+**[wiki/Home](https://Paranthaman-K6.github.io/limbo/)**.
+
+---
 
 ## Documentation
 
-| Topic | Link |
-|-------|------|
-| **User Guide** | [Getting Started](wiki/Getting-Started) • [Configuration](wiki/Configuration) • [Velocity Forwarding](wiki/Velocity-Forwarding) |
-| **Technical** | [Architecture](wiki/Architecture) • [Protocol Support](wiki/Protocol-Support) • [Void World](wiki/Void-World) • [Schematic Support](wiki/Schematic-Support) |
-| **Operations** | [Hardening & Security](wiki/Hardening-Security) • [Testing](wiki/Testing) • [Troubleshooting](wiki/Troubleshooting) |
-| **Development** | [Development](wiki/Development) |
+Full docs are published to **`https://Paranthaman-K6.github.io/limbo/`** and
+built from [`wiki/`](wiki) by MkDocs — edit a page and CI republishes it.
+
+| | |
+|---|---|
+| **User guide** | [Getting Started](https://Paranthaman-K6.github.io/limbo/Getting-Started/) · [Configuration](https://Paranthaman-K6.github.io/limbo/Configuration/) · [Velocity Forwarding](https://Paranthaman-K6.github.io/limbo/Velocity-Forwarding/) |
+| **Technical** | [Architecture](https://Paranthaman-K6.github.io/limbo/Architecture/) · [Protocol Support](https://Paranthaman-K6.github.io/limbo/Protocol-Support/) · [Void World](https://Paranthaman-K6.github.io/limbo/Void-World/) · [Schematic Support](https://Paranthaman-K6.github.io/limbo/Schematic-Support/) |
+| **Operations** | [Hardening & Security](https://Paranthaman-K6.github.io/limbo/Hardening-Security/) · [Testing](https://Paranthaman-K6.github.io/limbo/Testing/) · [Troubleshooting](https://Paranthaman-K6.github.io/limbo/Troubleshooting/) |
+| **Development** | [Development](https://Paranthaman-K6.github.io/limbo/Development/) |
+
+<details>
+<summary>Running the docs locally</summary>
+
+```sh
+python3 -m venv .venv-docs && source .venv-docs/bin/activate
+pip install -r requirements-docs.txt
+mkdocs serve      # http://127.0.0.1:8000/limbo/
+```
+
+</details>
+
+---
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Author and maintainer: **Paranthaman**
-(<paranthaman@example.com>, [@Paranthaman-K6](https://github.com/Paranthaman-K6)).
+**MIT** — see [LICENSE](LICENSE).
+
+Author and maintainer: **Paranthaman**
+([@Paranthaman-K6](https://github.com/Paranthaman-K6)).
+
+`third_party/miniz.c` is public domain (CC0). Protocol details were derived from
+publicly documented behaviour and reference implementations; no third-party
+source was vendored. See [LICENSE](LICENSE) for full credits.

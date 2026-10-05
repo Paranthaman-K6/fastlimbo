@@ -16,7 +16,7 @@
 ## Build
 
 ```sh
-git clone https://github.com/your-org/limbo-cpp.git
+git clone https://github.com/Paranthaman-K6/limbo.git
 cd limbo-cpp
 make            # → build/limbo
 make test       # → unit tests + HMAC vector check
@@ -171,7 +171,7 @@ limbo-cpp/
 
 ## Next Steps
 
-- [Configuration](Configuration) — tune `limbo.properties`
-- [Velocity Forwarding](Velocity-Forwarding) — secure proxy integration
-- [Testing](Testing) — run the full test matrix
-- [Architecture](Architecture) — understand the design
+- [Configuration](Configuration.md) — tune `limbo.properties`
+- [Velocity Forwarding](Velocity-Forwarding.md) — secure proxy integration
+- [Testing](Testing.md) — run the full test matrix
+- [Architecture](Architecture.md) — understand the design

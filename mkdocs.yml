@@ -1,0 +1,122 @@
+site_name: limbo-c++
+site_description: Lightweight behind-proxy Minecraft Limbo backend in C++20
+site_author: Paranthaman
+site_url: https://Paranthaman-K6.github.io/limbo/
+
+# The wiki pages live in wiki/ and are the single source of truth.
+# wiki/_Sidebar.md is the canonical nav order; wiki/_Footer.md becomes `extra.footer`.
+docs_dir: wiki
+
+# _Sidebar.md / _Footer.md exist to keep the *native* GitHub wiki usable.
+# Their content is mirrored into `nav:` and `extra.footer` below, which is
+# authoritative for Pages, so don't publish them as standalone pages.
+exclude_docs: |
+  _Sidebar.md
+  _Footer.md
+
+repo_name: Paranthaman-K6/limbo
+repo_url: https://github.com/Paranthaman-K6/limbo
+edit_uri: edit/main/wiki/
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - header.autohide
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+      title: On this page
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Paranthaman-K6/limbo
+      name: limbo-c++ on GitHub
+    - icon: fontawesome/brands/python
+      link: https://github.com/Paranthaman-K6/limbo/tree/main/tests
+      name: Test harness
+  footer: >-
+    <strong>limbo-c++</strong> &mdash; lightweight Minecraft Limbo backend (C++20).
+    Author and maintainer: <a href="https://github.com/Paranthaman-K6">Paranthaman</a>.
+    MIT licensed.
+
+nav:
+  - Home: Home.md
+  - Getting Started: Getting-Started.md
+  - Configuration: Configuration.md
+  - Velocity Forwarding: Velocity-Forwarding.md
+  - Architecture: Architecture.md
+  - Protocol Support: Protocol-Support.md
+  - Void World: Void-World.md
+  - Schematic Support: Schematic-Support.md
+  - Hardening &amp; Security: Hardening-Security.md
+  - Testing: Testing.md
+  - Troubleshooting: Troubleshooting.md
+  - Development: Development.md

@@ -50,7 +50,7 @@ struct Cursor {
     return true;
   }
   bool i16(int16_t& v) {
-    uint16_t u;
+    uint16_t u = 0;
     if (!u16(u)) return false;
     v = (int16_t)u;
     return true;
@@ -80,14 +80,14 @@ struct Cursor {
 bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth);
 
 bool parseNamed(Cursor& c, std::string& name, Node& node, int depth) {
-  uint8_t type;
+  uint8_t type = 0;
   if (!c.u8(type)) return false;
   if (type == 0) {
     node.type = 0;
     name.clear();
     return true;
   }
-  uint16_t nl;
+  uint16_t nl = 0;
   if (!c.u16(nl)) return false;
   const uint8_t* np;
   if (!c.take(nl, np)) return false;
@@ -101,25 +101,25 @@ bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth) {
   if (depth > kMaxDepth) { c.ok = false; return false; }
   switch (type) {
     case 1: {
-      uint8_t v;
+      uint8_t v = 0;
       if (!c.u8(v)) return false;
       node.ival = (int8_t)v;
       return true;
     }
     case 2: {
-      int16_t v;
+      int16_t v = 0;
       if (!c.i16(v)) return false;
       node.ival = v;
       return true;
     }
     case 3: {
-      int32_t v;
+      int32_t v = 0;
       if (!c.i32(v)) return false;
       node.ival = v;
       return true;
     }
     case 4: {
-      int64_t v;
+      int64_t v = 0;
       if (!c.i64(v)) return false;
       node.ival = v;
       return true;
@@ -133,7 +133,7 @@ bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth) {
       if (c.pos > c.n) { c.ok = false; return false; }
       return true;
     case 7: {
-      int32_t len;
+      int32_t len = 0;
       if (!c.i32(len) || len < 0 || (size_t)len > c.n) { c.ok = false; return false; }
       const uint8_t* bp;
       if (!c.take((size_t)len, bp)) return false;
@@ -141,7 +141,7 @@ bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth) {
       return true;
     }
     case 8: {
-      uint16_t nl;
+      uint16_t nl = 0;
       if (!c.u16(nl)) return false;
       const uint8_t* sp;
       if (!c.take(nl, sp)) return false;
@@ -149,9 +149,9 @@ bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth) {
       return true;
     }
     case 9: {
-      uint8_t et;
+      uint8_t et = 0;
       if (!c.u8(et)) return false;
-      int32_t len;
+      int32_t len = 0;
       if (!c.i32(len) || len < 0 || len > kMaxBlocks) { c.ok = false; return false; }
       node.listElem = et;
       node.items.reserve((size_t)len);
@@ -175,21 +175,21 @@ bool parsePayload(Cursor& c, uint8_t type, Node& node, int depth) {
       return true;
     }
     case 11: {
-      int32_t len;
+      int32_t len = 0;
       if (!c.i32(len) || len < 0 || len > kMaxBlocks) { c.ok = false; return false; }
       node.ints.reserve((size_t)len);
       for (int32_t i = 0; i < len; ++i) {
-        int32_t v;
+        int32_t v = 0;
         if (!c.i32(v)) return false;
         node.ints.push_back(v);
       }
       return true;
     }
     case 12: {
-      int32_t len;
+      int32_t len = 0;
       if (!c.i32(len) || len < 0 || len > kMaxBlocks) { c.ok = false; return false; }
       for (int32_t i = 0; i < len; ++i) {
-        int64_t v;
+        int64_t v = 0;
         if (!c.i64(v)) return false;
         (void)v;
       }
@@ -364,7 +364,7 @@ std::optional<Schem> loadSchem(const std::string& path, Error& err) {
   blocks.reserve((size_t)total);
   size_t pos = 0;
   while ((int64_t)blocks.size() < total) {
-    int32_t v;
+    int32_t v = 0;
     if (!readVarInt(bd.data(), bd.size(), pos, v) || v < 0 ||
         (size_t)v >= byId.size()) {
       err = "bad BlockData varint";

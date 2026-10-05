@@ -37,7 +37,7 @@ The "void world" is the minimal Play environment: a single empty chunk at (0, 0)
 
 ## Void Chunk Encoding by Era
 
-> **Source:** [`src/world/void_chunk.cpp`](../src/world/void_chunk.cpp), [docs/research/limbo-references.md §3](../docs/research/limbo-references.md#3-chunk--void--spawn-recipe)
+> **Source:** [`src/world/void_chunk.cpp`](https://github.com/Paranthaman-K6/limbo/blob/main/src/world/void_chunk.cpp), derived from the client-side spawn/void chunk behaviour documented on [Void World](Void-World.md).
 
 ### Pre-1.14 (PVN < 480ish) — Legacy `Map Chunk` / Bulk
 
@@ -164,7 +164,7 @@ When `schematic_path` is set and valid:
 - Max 64 MiB decoded NBT
 - Parse timeout 5s
 
-See [Schematic Support](Schematic-Support).
+See [Schematic Support](Schematic-Support.md).
 
 ---
 
@@ -213,7 +213,7 @@ C→S KeepAlive: id=1234567890123456789  (echo)
 
 ## Related
 
-- [Protocol Support](Protocol-Support) — packet IDs per era
-- [Architecture](Architecture) — state machine
-- [Schematic Support](Schematic-Support) — .schem override
-- [Configuration](Configuration) — spawn/gamemode/view_distance keys
+- [Protocol Support](Protocol-Support.md) — packet IDs per era
+- [Architecture](Architecture.md) — state machine
+- [Schematic Support](Schematic-Support.md) — .schem override
+- [Configuration](Configuration.md) — spawn/gamemode/view_distance keys

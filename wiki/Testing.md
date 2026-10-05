@@ -172,7 +172,7 @@ python3 tests/integration/hardening_matrix.py --host 127.0.0.1 --port 25566
 
 ### Corpus
 
-Pre-generated malformed packets in `tests/fuzz/corpus/` (see [Hardening & Security](Hardening-Security#fuzz-harness)).
+Pre-generated malformed packets in `tests/fuzz/corpus/` (see [Hardening & Security](Hardening-Security.md#fuzz-harness)).
 
 ### Harness
 
@@ -306,7 +306,7 @@ python3 tests/integration/matrix.py -v --host 127.0.0.1 --port 25566 --version 7
 
 ## Related
 
-- [Getting Started](Getting-Started) — quick test commands
-- [Protocol Support](Protocol-Support) — version matrix
-- [Hardening & Security](Hardening-Security) — fuzz corpus, rate limits
-- [Velocity Forwarding](Velocity-Forwarding) — MODERN test flags
+- [Getting Started](Getting-Started.md) — quick test commands
+- [Protocol Support](Protocol-Support.md) — version matrix
+- [Hardening & Security](Hardening-Security.md) — fuzz corpus, rate limits
+- [Velocity Forwarding](Velocity-Forwarding.md) — MODERN test flags

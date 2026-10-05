@@ -132,4 +132,4 @@ Adjust based on soak test (`tests/soak/soak.py`) observations.
 
 ## Environment Variable Overrides (Not Yet Implemented)
 
-Planned: `LIMBO_BIND`, `LIMBO_PORT`, `LIMBO_FORWARDING_SECRET`, etc. for container deployments. See [TODO.md](../TODO.md).
+Planned: `LIMBO_BIND`, `LIMBO_PORT`, `LIMBO_FORWARDING_SECRET`, etc. for container deployments. Tracked on the internal task board.

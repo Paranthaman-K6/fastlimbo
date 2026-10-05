@@ -159,7 +159,7 @@ assert(pvn >= 0 && "protocol version must be non-negative");
 3. **Update void chunk** if format differs (`void_chunk.cpp`)
 4. **Update Configuration** if new registries (`registry.cpp`)
 5. **Test:** `matrix.py --version <new_pvn>`
-6. **Document:** Update [Protocol Support](Protocol-Support) table
+6. **Document:** Update [Protocol Support](Protocol-Support.md) table
 
 ---
 
@@ -276,8 +276,8 @@ heaptrack_gui heaptrack.limbo.*.gz
 
 ## Contributing
 
-1. Read [Architecture](Architecture) and [Protocol Support](Protocol-Support)
-2. Pick a TODO item from [TODO.md](../TODO.md) or propose new
+1. Read [Architecture](Architecture.md) and [Protocol Support](Protocol-Support.md)
+2. Pick a task item from the internal task board or propose new
 3. Follow ownership rules — new files only, no `connection.cpp` edits
 4. Write unit test + integration test hook
 5. Update relevant wiki page
@@ -287,7 +287,7 @@ heaptrack_gui heaptrack.limbo.*.gz
 
 ## Related
 
-- [Architecture](Architecture) — design decisions
-- [Protocol Support](Protocol-Support) — version tables
-- [Testing](Testing) — test commands
-- [Hardening & Security](Hardening-Security) — limits, fuzzing
+- [Architecture](Architecture.md) — design decisions
+- [Protocol Support](Protocol-Support.md) — version tables
+- [Testing](Testing.md) — test commands
+- [Hardening & Security](Hardening-Security.md) — limits, fuzzing

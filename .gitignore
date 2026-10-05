@@ -32,5 +32,6 @@ __pycache__/
 TODO.md
 docs/*-notes.md
 docs/research/
-wiki/_Sidebar.md
-wiki/_Footer.md
+
+# Note: wiki/_Sidebar.md and wiki/_Footer.md ARE tracked — they keep the native
+# GitHub wiki usable. mkdocs.yml (`nav:` / `extra.footer`) is authoritative for Pages.

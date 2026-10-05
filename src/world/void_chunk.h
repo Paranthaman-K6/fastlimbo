@@ -37,5 +37,6 @@ std::vector<uint8_t> buildVoidChunkBody(int pvn, int chunkX, int chunkZ);
 void setSpawnSchematic(const std::string& path);
 bool loadSpawnSchematic(std::string& err);  // true when void-only or loaded
 std::optional<PasteCtx> spawnPaste();       // paste ctx for chunk (0,0), if any
+double spawnY();  // feet Y: 400.0 void, or one above the pasted platform
 
 }  // namespace limbo::world

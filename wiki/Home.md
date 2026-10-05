@@ -8,17 +8,17 @@
 
 | Topic | Description |
 |-------|-------------|
-| [Getting Started](Getting-Started) | Build, configure, and run in 3 commands |
-| [Configuration](Configuration) | All `limbo.properties` keys explained |
-| [Architecture](Architecture) | Design decisions, data-driven protocol, thread model |
-| [Protocol Support](Protocol-Support) | Versions, eras, packet IDs, Configuration state |
-| [Velocity Forwarding](Velocity-Forwarding) | MODERN forwarding setup and HMAC verification |
-| [Void World](Void-World) | Spawn, chunks, keepalive, spectator mode |
-| [Schematic Support](Schematic-Support) | Sponge `.schem` v2 paste at spawn (planned) |
-| [Hardening & Security](Hardening-Security) | Rate limits, fuzz harness, IPv6, read timeouts |
-| [Testing](Testing) | Unit, integration, fuzz, soak, matrix |
-| [Development](Development) | Code layout, contributing, multi-agent workflow |
-| [Troubleshooting](Troubleshooting) | Common issues and diagnostics |
+| [Getting Started](Getting-Started.md) | Build, configure, and run in 3 commands |
+| [Configuration](Configuration.md) | All `limbo.properties` keys explained |
+| [Architecture](Architecture.md) | Design decisions, data-driven protocol, thread model |
+| [Protocol Support](Protocol-Support.md) | Versions, eras, packet IDs, Configuration state |
+| [Velocity Forwarding](Velocity-Forwarding.md) | MODERN forwarding setup and HMAC verification |
+| [Void World](Void-World.md) | Spawn, chunks, keepalive, spectator mode |
+| [Schematic Support](Schematic-Support.md) | Sponge `.schem` v2 paste at spawn (planned) |
+| [Hardening & Security](Hardening-Security.md) | Rate limits, fuzz harness, IPv6, read timeouts |
+| [Testing](Testing.md) | Unit, integration, fuzz, soak, matrix |
+| [Development](Development.md) | Code layout, contributing, multi-agent workflow |
+| [Troubleshooting](Troubleshooting.md) | Common issues and diagnostics |
 
 ---
 
@@ -52,10 +52,10 @@ In Minecraft proxy terminology, a **Limbo** is a minimal backend server that:
 | Version matrix (47, 340, 754, 762, 763, 764, 766, 767) | 🟡 In progress |
 | Soak test (1k idle, join latency) | 🔲 Planned |
 
-See [TODO.md](../TODO.md) for the live task board.
+Progress is tracked on an internal task board; the per-component state table above is the public summary.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](../LICENSE) (to be added).
+MIT — see [LICENSE](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE). Author and maintainer: [**Paranthaman**](https://github.com/Paranthaman-K6).

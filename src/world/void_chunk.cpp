@@ -118,11 +118,17 @@ std::optional<PasteCtx> spawnPaste() {
   if (!g_spawn) return std::nullopt;
   PasteCtx ctx;
   ctx.schem = &*g_spawn;
-  // Center on spawn block (8, *, 8); top of schem at y=399 (feet at 400).
+  // Center on spawn block (8, *, 8); top of schem at y=319 (chunk sections
+  // span -64..319, so a platform above that could never render).
   ctx.baseX = 8 - g_spawn->w / 2;
-  ctx.baseY = 400 - g_spawn->h;
+  ctx.baseY = 320 - g_spawn->h;
   ctx.baseZ = 8 - g_spawn->l / 2;
   return ctx;
+}
+
+double spawnY() {
+  if (!g_spawn) return 400.0;  // void: safely above everything
+  return (double)(320 - g_spawn->h) + g_spawn->h;  // feet exactly on platform top
 }
 
 std::vector<uint8_t> buildVoidChunkBody(int pvn, int chunkX, int chunkZ) {

@@ -1,6 +1,6 @@
 # Hardening & Security
 
-> **Sources:** [docs/hardening-notes.md](../docs/hardening-notes.md), [`src/security/limits.h/.cpp`](../src/security/limits.h), [`tests/fuzz/`](../tests/fuzz/)
+> **Sources:** [`src/security/limits.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/security/limits.h) and [`tests/fuzz/`](https://github.com/Paranthaman-K6/limbo/tree/main/tests/fuzz) — the hardening threat model was worked out from the packet-parsing surface itself.
 
 ---
 
@@ -32,7 +32,7 @@
 | Max packets/sec | `max_packets_per_sec` | 200 | Disconnect |
 | Max bytes/sec | `max_bytes_per_sec` | 1048576 | Disconnect |
 
-**Implementation:** [`src/security/limits.h/.cpp`](../src/security/limits.h) — sliding window (1s buckets) per connection.
+**Implementation:** [`src/security/limits.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/security/limits.h) — sliding window (1s buckets) per connection.
 
 ### 2. Protocol Parsing Hardening
 
@@ -232,7 +232,7 @@ python3 tests/soak/soak.py --host 127.0.0.1 --port 25566 --connections 1000 --du
 
 ## Related
 
-- [Configuration](Configuration) — all limit keys
-- [Velocity Forwarding](Velocity-Forwarding) — HMAC details
-- [Testing](Testing) — matrix, fuzz, soak
-- [Architecture](Architecture) — thread model, limits rationale
+- [Configuration](Configuration.md) — all limit keys
+- [Velocity Forwarding](Velocity-Forwarding.md) — HMAC details
+- [Testing](Testing.md) — matrix, fuzz, soak
+- [Architecture](Architecture.md) — thread model, limits rationale

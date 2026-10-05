@@ -1,0 +1,4 @@
+# Docs toolchain for GitHub Pages (see .github/workflows/docs.yml).
+# Pinned so CI builds are reproducible. Bump deliberately.
+mkdocs-material==9.6.14
+mkdocs==1.6.1

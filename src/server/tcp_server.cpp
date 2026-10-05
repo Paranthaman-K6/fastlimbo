@@ -91,7 +91,7 @@ int run(const Config& cfg) {
     return 1;
   }
   if (bind(srv, (sockaddr*)&addr, sizeof(addr)) < 0) { perror("bind"); return 1; }
-  if (listen(srv, 128) < 0) { perror("listen"); return 1; }
+  if (listen(srv, 511) < 0) { perror("listen"); return 1; }
   printf("limbo listening on [%s]:%d forwarding=%s\n", cfg.bind.c_str(), cfg.port, cfg.forwarding.c_str());
   fflush(stdout);
 

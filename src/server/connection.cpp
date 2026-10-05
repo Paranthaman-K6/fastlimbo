@@ -98,7 +98,8 @@ void enterPlay(int fd, const Config& cfg, int pvn, security::Limiter* lim) {
   if (!sendBody(ids.joinGame, play::joinGameBody(pvn, entityId))) { close(fd); return; }
   if (!sendBody(ids.abilities, play::abilitiesBody(pvn))) { close(fd); return; }
   int teleportId = 1;
-  if (!sendBody(ids.position, play::positionBody(pvn, 8.5, 400.0, 8.5, 0.0f, 0.0f, teleportId))) { close(fd); return; }
+  double sy = world::spawnY();
+  if (!sendBody(ids.position, play::positionBody(pvn, 8.5, sy, 8.5, 0.0f, 0.0f, teleportId))) { close(fd); return; }
   if (proto::needsGameEvent13(pvn)) {
     if (!sendBody(ids.gameEvent, play::gameEventBody(pvn, 13, 0.0f))) { close(fd); return; }
   }

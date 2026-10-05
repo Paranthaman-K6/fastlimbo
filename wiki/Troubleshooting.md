@@ -299,7 +299,7 @@ ls third_party/miniz.h
 
 1. **Check logs** -- stderr has `[limbo]` prefix
 2. **Run integration test** -- `matrix.py` isolates version-specific issues
-3. **Check wiki** -- [Protocol Support](Protocol-Support), [Velocity Forwarding](Velocity-Forwarding), [Void World](Void-World)
+3. **Check wiki** -- [Protocol Support](Protocol-Support.md), [Velocity Forwarding](Velocity-Forwarding.md), [Void World](Void-World.md)
 4. **Enable debug** -- add temporary `fprintf` in `connection.cpp` (lead only)
 5. **Capture packets** -- `tcpdump -i lo -w limbo.pcap port 25566`
 6. **Open issue** -- include: config, logs, client version, PVN, test output
@@ -308,7 +308,7 @@ ls third_party/miniz.h
 
 ## Related
 
-- [Configuration](Configuration) -- all config keys
-- [Testing](Testing) -- test commands
-- [Velocity Forwarding](Velocity-Forwarding) -- MODERN debugging
-- [Hardening & Security](Hardening-Security) -- rate limits, timeouts
+- [Configuration](Configuration.md) -- all config keys
+- [Testing](Testing.md) -- test commands
+- [Velocity Forwarding](Velocity-Forwarding.md) -- MODERN debugging
+- [Hardening & Security](Hardening-Security.md) -- rate limits, timeouts

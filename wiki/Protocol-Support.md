@@ -1,6 +1,6 @@
 # Protocol Support
 
-> **Source:** [docs/research/limbo-references.md](../docs/research/limbo-references.md) + [`src/protocol/versions.h`](../src/protocol/versions.h)
+> **Source:** packet IDs were cross-checked against the public protocol references listed in [Architecture](Architecture.md) and encoded as data in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/protocol/versions.h).
 
 ---
 

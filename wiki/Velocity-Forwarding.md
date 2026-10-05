@@ -1,6 +1,6 @@
 # Velocity MODERN Forwarding
 
-> **Sources:** [Velocity docs](https://docs.papermc.io/velocity/player-information-forwarding), [Velocity source](https://github.com/PaperMC/Velocity), [docs/research/limbo-references.md §2](../docs/research/limbo-references.md#2-velocity-modern-forwarding)
+> **Sources:** [Velocity docs](https://docs.papermc.io/velocity/player-information-forwarding) and [Velocity source](https://github.com/PaperMC/Velocity).
 
 ---
 
@@ -216,7 +216,7 @@ If currently using `forwarding=LEGACY` (or `NONE` behind Velocity):
 
 ## Related
 
-- [Configuration](Configuration) — all config keys
-- [Protocol Support](Protocol-Support) — PVN requirements (PVN ≥ 393)
-- [Hardening & Security](Hardening-Security) — rate limits, fuzzing
-- [Testing](Testing) — integration matrix
+- [Configuration](Configuration.md) — all config keys
+- [Protocol Support](Protocol-Support.md) — PVN requirements (PVN ≥ 393)
+- [Hardening & Security](Hardening-Security.md) — rate limits, fuzzing
+- [Testing](Testing.md) — integration matrix
