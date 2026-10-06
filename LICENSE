@@ -1,107 +1,21 @@
-PROPRIETARY SOFTWARE — ALL RIGHTS RESERVED
-=======================================
+MIT License
 
 Copyright (c) 2026 Paranthaman
-Contact: Paranthaman-K6@users.noreply.github.com
-Project: limbo-c++  (https://github.com/Paranthaman-K6/limbo)
 
-NOTICE: This software is NOT licensed under any open-source license.
-There is no grant of any kind to copy, modify, distribute, sublicense, or
-use this software, in whole or in part, for any purpose.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-1. RESERVED RIGHTS
-------------------
-
-All rights in this software and its documentation are reserved by the
-copyright holder. No permission is granted to any person to exercise any of
-the rights reserved by copyright law, including but not limited to the rights
-to:
-
-  - copy, reproduce, or republish the source code, in whole or in part
-  - modify, adapt, translate, port, or create derivative works from it
-  - distribute, sublicense, sell, or give the software to third parties
-  - host, mirror, or re-publish it on any platform, repository, or registry
-  - offer the software, or any substantially similar program, as a service
-    or product to any third party
-
-Doing any of the above without prior written permission from the copyright
-holder is infringement, and may result in legal action.
-
-
-2. WHAT IS AND IS NOT PROTECTED
--------------------------------
-
-Be clear-eyed about what this document can and cannot do.
-
-PROTECTED BY COPYRIGHT (this software):
-  The specific source code, the documentation, the written design rationale,
-  the build tooling, and the original artwork (logo, diagrams) as original
-  expression. Copyright subsists automatically on publication; this notice
-  records the owner and asserts the reservation.
-
-NOT PROTECTED BY THIS NOTICE:
-  - Ideas, concepts, methods, architectures, or design *rationale*. Copyright
-    does not and cannot protect an idea. If a third party independently designs
-    or builds a lightweight behind-proxy Minecraft server, that is not
-    infringement of this project.
-  - The Minecraft protocol itself. Packet identifiers, field orders, registry
-    layouts, and other wire-format facts are published by Mojang and documented
-    publicly by the community (wiki.vg, minecraft-data, PaperMC). Those facts
-    are not proprietary to this project and are not covered by this notice.
-    This project re-implements them from public specifications.
-  - Names, logos, and marks of third parties.
-  - Anything published by this project previously under an open-source license,
-    which remains licensed under that license for those already-obtained copies.
-
-THIS NOTICE DOES NOT PREVENT YOU FROM READING, STUDYING, OR LEARNING FROM
-THIS SOFTWARE. It governs copying and redistribution, not comprehension.
-
-
-3. THIRD-PARTY COMPONENTS
---------------------------
-
-This project incorporates the following third-party material, which remains
-subject to its own separate terms and is NOT covered by this notice:
-
-  third_party/miniz.c
-  third_party/miniz.h
-      Written for this project and released into the public domain
-      (Unlicense / CC0-1.0). The author has dedicated this work to the public
-      domain; it may be used, copied, and modified by anyone for any purpose.
-
-No third-party source code was vendored into this repository. Protocol details
-were derived from publicly documented behaviour and reference
-implementations; those references are listed in the project documentation.
-
-
-4. PERMISSIONS
---------------
-
-Permission to use, copy, or modify this software may be granted under a
-separate written agreement. To request permission, contact the copyright
-holder at the address above. Include the repository URL, your intended use,
-and the distribution model.
-
-If permission is granted, it will be in writing and will state its terms and
-duration. No verbal or implied permission exists.
-
-
-5. CONTRIBUTIONS
-----------------
-
-This project accepts no unsolicited contributions unless the contributor has
-signed a Contributor License Agreement assigning copyright in their
-contribution to the copyright holder. See CLA.md. Pull requests submitted
-without a signed CLA may not be merged and confer no license to their authors
-to the code contained in them.
-
-
-6. TRADEMARKS
--------------
-
-"limbo-c++", the project name, the project logo, and related marks are the
-property of the copyright holder and are not licensed under this notice.
-Use of these marks requires prior written permission. The marks may not be used
-in a way that suggests sponsorship, endorsement, or affiliation, or in the name
-of a derived or derivative work, without that permission.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
