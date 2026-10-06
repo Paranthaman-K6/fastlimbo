@@ -15,10 +15,8 @@ import socket, struct, sys
 HOST = sys.argv[1] if len(sys.argv) > 1 else "127.0.0.1"
 PORT = int(sys.argv[2]) if len(sys.argv) > 2 else 25566
 
-PVNS = [47, 335, 338, 340, 393, 401, 404, 477, 480, 481, 482, 485,
-        573, 574, 575, 735, 736, 751, 753, 754, 755, 756, 757, 758,
-        759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770,
-        771, 772, 773, 774, 775]
+# 26.2-only release line: PVN 776 is the single supported version.
+PVNS = [776]
 
 def varint(n):
     u = n & 0xFFFFFFFF; o = b""

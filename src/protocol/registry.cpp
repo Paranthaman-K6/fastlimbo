@@ -57,7 +57,7 @@ std::vector<std::vector<uint8_t>> buildRegistryBlobs(int pvn) {
   else if (pvn >= 770 && pvn <= 772) target = "e770";
   else if (pvn == 773) target = "e773";
   else if (pvn == 774) target = "e774";
-  else target = "e775";
+  else target = "e775";  // 775 + 776 (26.2 reuses 26.1 registries provisionally)
   // One RegistryData body per registry, in vanilla order.
   struct Entry {
     const char* suffix;

@@ -234,7 +234,7 @@ std::vector<uint8_t> buildChunkBody(int pvn, int chunkX, int chunkZ,
       else if (pvn <= 772) biomeIdx = codec::plainsId("e770");
       else if (pvn == 773) biomeIdx = codec::plainsId("e773");
       else if (pvn == 774) biomeIdx = codec::plainsId("e774");
-      else biomeIdx = codec::plainsId("e775");
+      else biomeIdx = codec::plainsId("e775");  // 775 + 776 (26.2 reuses 26.1 biome)
       for (int si = 0; si < 24; ++si) {
         if (!overlay) {
           emptySection(sections, biomeIdx);

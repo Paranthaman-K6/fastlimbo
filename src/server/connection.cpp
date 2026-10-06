@@ -207,8 +207,9 @@ void handleConnection(int fd, std::string peerIp, const Config& cfg, int onlineC
   }
   // Ignore trailing LoginStart fields (UUID/signature/key per version) — offline/velocity only.
 
-  if (proto::eraForPvn(pvn) == proto::Era::UNKNOWN || pvn > proto::maxSupportedPvn()) {
-    auto d = packets::loginDisconnectBody(pvn, "Unsupported Minecraft version");
+  // 26.2-only release line: only PVN 776 is supported.
+  if (!proto::isSupportedPvn(pvn)) {
+    auto d = packets::loginDisconnectBody(pvn, "Unsupported Minecraft version (this server supports 26.2 only)");
     writeAll(fd, proto::framePacket(0x00, d));
     close(fd); return;
   }

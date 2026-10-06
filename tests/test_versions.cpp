@@ -48,16 +48,21 @@ int main() {
   // 767 exact; 768/769 disc 0x1D center 0x58
   assert(eq(playIds(767), {0x2B, 0x26, 0x40, 0x27, 0x1D, 0x38, 0x22, 0x54, 0x0D, 0x0C}));
   assert(playIds(768).disconnect == 0x1D && playIds(768).centerChunk == 0x58);
-  // 770-772 row; 773/774 row; 775 row
+  // 770-772 row; 773/774 row; 775 row; 776 (26.2) reuses 775 wire format
   assert(playIds(770).position == 0x41 && playIds(770).centerChunk == 0x57);
   assert(playKeepAliveServerbound(770) == 0x1A);
   assert(playIds(773).joinGame == 0x30 && playIds(773).centerChunk == 0x5C);
   assert(playIds(775).joinGame == 0x31 && playIds(775).position == 0x48);
   assert(playKeepAliveServerbound(775) == 0x1C);
-  // gating
+  assert(eq(playIds(776), playIds(775)));
+  assert(playKeepAliveServerbound(776) == 0x1C);
+  assert(eraForPvn(776) == Era::V1_26_2);
+  // gating (26.2-only release line)
   assert(hasConfiguration(764) && !hasConfiguration(763));
   assert(needsGameEvent13(765) && !needsGameEvent13(764));
-  assert(eraForPvn(776) == Era::UNKNOWN && maxSupportedPvn() == 775);
+  assert(maxSupportedPvn() == 776 && minSupportedPvn() == 776);
+  assert(isSupportedPvn(776) && !isSupportedPvn(775) && !isSupportedPvn(777));
+  assert(eraForPvn(777) == Era::UNKNOWN);
   printf("test_versions ok\n");
   return 0;
 }

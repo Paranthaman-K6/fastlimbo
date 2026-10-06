@@ -14,7 +14,7 @@ struct Config {
   int maxPlayers = 100;
   std::string versionName = "Limbo-C++";
   std::string motd = "Limbo-C++ void";
-  int protocolMax = 774;
+  int protocolMax = 776;
   std::string forwarding = "NONE";  // NONE | MODERN
   std::string forwardingSecret;
   int readTimeoutMs = 30000;

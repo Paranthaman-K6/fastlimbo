@@ -4,7 +4,7 @@ Lightweight behind-proxy Minecraft Limbo backend in C++20.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Language: C++20](https://img.shields.io/badge/C%2B%2B-20-ff69b4.svg)](httpsis.fecw)
-[![Protocol: 47–774](https://img.shields.io/badge/protocol-47...774-9cf)](https://wiki.vg/Protocol)
+[![Protocol: 776](https://img.shields.io/badge/protocol-776_(26.2_only)-9cf)](https://wiki.vg/Protocol)
 [![OpenSSLL: libcrypto](https://img.shields.io/badge/deps-OpenSSL%20libcrypto-9cf)](https://openssl.org)
 
 ## Quick start
@@ -17,7 +17,7 @@ make test       # builds + runs unit tests
 
 ## Features
 
-- **Multi-version support** — data-driven protocol tables in `src/protocol/versions.h`, eras 47–774
+- **26.2-only support** — single-version release line in `src/protocol/versions.h`, PVN 776
 - **Status ping** + **offline login** (UUID offline-mode)
 - **Velocity MODERN forwarding** with HMAC-SHA256 verification
 - **Dual-stack IPv6** (bind `::`, accepts both v4 and v6)

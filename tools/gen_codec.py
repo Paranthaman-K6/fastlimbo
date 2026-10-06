@@ -16,7 +16,8 @@ so chunk biome palettes and JoinGame dimension indices stay consistent.
 
 Reuse map for versions without own data dir (documented skew):
   761->1.19.4, 765->1.20.2(elements), 769->1.21.3, 770/771/772->1.21.9,
-  758->1.18, 756->1.17, 736->1.16, 753/754->1.16.2 shapes, 338->1.12.2 IDs.
+  758->1.18, 756->1.17, 736->1.16, 753/754->1.16.2 shapes, 338->1.12.2 IDs,
+  776 (26.2)->26.1 wire format + e775 registries (provisional).
 Usage: python3 tools/gen_codec.py   (run from repo root)
 """
 import json

@@ -9,6 +9,7 @@
 // 1.15, 1.16, 1.16.1, 1.16.2, 1.17, 1.17.1, 1.18, 1.18.2, 1.19, 1.19.2, 1.19.3,
 // 1.19.4, 1.20, 1.20.2, 1.20.3, 1.20.5, 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.6,
 // 1.21.8, 1.21.9, 1.21.11, 26.1) + NanoLimbo State.java cross-check.
+// 26.2 (PVN 776) provisionally reuses the 26.1 row until verified 26.2 data lands.
 // Minors without own data dir reuse the nearest verified row (see REUSE below).
 // Logic must branch on helpers here, never on hardcoded IDs elsewhere.
 #include <string>
@@ -39,6 +40,7 @@ enum class Era {
   V1_21_9_10,      // 773
   V1_21_11,        // 774
   V1_26_1,         // 775
+  V1_26_2,         // 776 (provisional: reuses 26.1 wire format pending verified 26.2 data)
   UNKNOWN,
 };
 
@@ -65,11 +67,17 @@ inline Era eraForPvn(int pvn) {
   if (pvn == 773) return Era::V1_21_9_10;
   if (pvn == 774) return Era::V1_21_11;
   if (pvn == 775) return Era::V1_26_1;
+  if (pvn == 776) return Era::V1_26_2;
   return Era::UNKNOWN;
 }
 
-// Highest supported PVN (26.1 data is the newest verified; above => clean reject).
-inline int maxSupportedPvn() { return 775; }
+// Release line is 26.2-only: PVN 776 is the single supported version.
+// Older PVNs (including 26.1/775) are rejected at login.
+inline int supportedPvn() { return 776; }
+inline int minSupportedPvn() { return 776; }
+// Highest supported PVN (26.2 is the newest verified; above => clean reject).
+inline int maxSupportedPvn() { return 776; }
+inline bool isSupportedPvn(int pvn) { return pvn == 776; }
 
 inline bool hasConfiguration(int pvn) { return pvn >= 764; }
 inline bool hasLoginPlugin(int pvn) { return pvn >= 393; }  // 1.13+; modern forwarding needs it
@@ -112,6 +120,7 @@ inline PlayIds playIds(int pvn) {
     case Era::V1_21_9_10: return {0x30, 0x2B, 0x46, 0x2C, 0x20, 0x3E, 0x26, 0x5C, 0x0C, 0x0B};
     case Era::V1_21_11: return {0x30, 0x2B, 0x46, 0x2C, 0x20, 0x3E, 0x26, 0x5C, 0x0C, 0x0B};
     case Era::V1_26_1: return {0x31, 0x2C, 0x48, 0x2D, 0x20, 0x40, 0x26, 0x5E, 0x0C, 0x0B};
+    case Era::V1_26_2: return {0x31, 0x2C, 0x48, 0x2D, 0x20, 0x40, 0x26, 0x5E, 0x0C, 0x0B};
     default:           return {0x2B, 0x26, 0x40, 0x27, 0x1D, 0x38, 0x22, 0x54, 0x0D, 0x0C};
   }
 }
@@ -135,6 +144,7 @@ inline int playKeepAliveServerbound(int pvn) {
     case Era::V1_21_5_8: return 0x1A;
     case Era::V1_21_9_10: case Era::V1_21_11: return 0x1B;
     case Era::V1_26_1: return 0x1C;
+    case Era::V1_26_2: return 0x1C;
     default: return 0x18;
   }
 }
@@ -149,6 +159,7 @@ inline const char* versionName(int pvn) {
     case 767: return "1.21/1.21.1"; case 768: return "1.21.2/1.21.3"; case 769: return "1.21.4";
     case 770: return "1.21.5"; case 771: return "1.21.6"; case 772: return "1.21.7/1.21.8";
     case 773: return "1.21.9/1.21.10"; case 774: return "1.21.11+"; case 775: return "26.1";
+    case 776: return "26.2";
     default: return "unknown";
   }
 }
