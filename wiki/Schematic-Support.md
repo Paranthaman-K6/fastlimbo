@@ -14,7 +14,7 @@
 | `.litematic` (Litematica) | 🔲 Deferred | Region entities, pending ticks, separate spec drift |
 | `.mca` (Anvil region) | 🔲 Deferred | Full region/chunk/heightmap/light reconstruction |
 
-**Decision:** the Sponge `.schem` v2 reader targets the narrow case only — a single pasted schematic at spawn, inflated with the bundled [`third_party/miniz`](https://github.com/Paranthaman-K6/limbo/tree/main/third_party) deflate implementation. Full block palettes and NBT-driven schematics are explicitly out of scope.
+**Decision:** the Sponge `.schem` v2 reader targets the narrow case only — a single pasted schematic at spawn, inflated with the bundled [`third_party/miniz`](https://github.com/Paranthaman-K6/fastlimbo/tree/main/third_party) deflate implementation. Full block palettes and NBT-driven schematics are explicitly out of scope.
 
 ---
 

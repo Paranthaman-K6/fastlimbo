@@ -1,6 +1,6 @@
 # Architecture
 
-> **Source of truth:** [`docs/ARCHITECTURE.md`](https://github.com/Paranthaman-K6/limbo/blob/main/docs/ARCHITECTURE.md) — this page is a user-friendly digest.
+> **Source of truth:** [`docs/ARCHITECTURE.md`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/docs/ARCHITECTURE.md) — this page is a user-friendly digest.
 
 ---
 
@@ -59,7 +59,7 @@
 
 ## Protocol: Data-Driven Version Tables
 
-All version logic lives in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/protocol/versions.h).
+All version logic lives in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/src/protocol/versions.h).
 
 ### Era System
 

@@ -66,8 +66,8 @@ Progress is tracked on an internal task board; the per-component state table abo
     Reading and learning from this project is welcome. Copying,
     redistributing, or building on it is not — ask first.
 
-    Full terms in [`LICENSE`](https://github.com/Paranthaman-K6/limbo/blob/main/LICENSE)
-    and [`CLA.md`](https://github.com/Paranthaman-K6/limbo/blob/main/CLA.md).
+    Full terms in [`LICENSE`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/LICENSE)
+    and [`CLA.md`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/CLA.md).
 
     Copyright © 2026 Paranthaman
     ([@Paranthaman-K6](https://github.com/Paranthaman-K6)). "limbo-c++" and the

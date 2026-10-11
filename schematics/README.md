@@ -13,3 +13,7 @@
 #
 # Limits: v2 only, ≤256 per side, ≤1M blocks. Renders on 1.18+ clients
 # (older versions see void). Bad file = void fallback + [world] log line.
+#
+# Credit: the bundled spawn.schem is courtesy of LOOHP/Limbo
+# (https://github.com/LOOHP/Limbo, Apache-2.0). Our paste/placement code
+# is original; only the schematic file itself is shared.

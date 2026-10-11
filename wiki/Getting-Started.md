@@ -16,7 +16,7 @@
 ## Build
 
 ```sh
-git clone https://github.com/Paranthaman-K6/limbo.git
+git clone https://github.com/Paranthaman-K6/fastlimbo.git
 cd limbo-cpp
 make            # → build/limbo
 make test       # → unit tests + HMAC vector check

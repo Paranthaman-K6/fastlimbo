@@ -21,7 +21,7 @@ struct Config {
   int readTimeoutMs = 30000;
   int maxPacketBytes = 8192;
   std::string schematicPath;  // "" = void-only; else .schem v2 spawn paste (1.18+ render)
-  std::string allowedVersions = "all";  // version allowlist spec (hook for policy)
+  std::string allowedVersions = "1.18, 1.18.1";  // supported scope (widen with allowed_versions)
   bool debugLog = false;                // legacy alias: true maps to DEBUG when debug_level unset
   int debugLevel = -1;  // -1 = unset (use debugLog compat); 0=ERROR,1=INFO,2=DEBUG,3=TRACE
   bool freezePlayer = true;  // freeze-player: teleport-back on movement (false = walkable void)

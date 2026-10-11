@@ -37,7 +37,7 @@ The "void world" is the minimal Play environment: a single empty chunk at (0, 0)
 
 ## Void Chunk Encoding by Era
 
-> **Source:** [`src/world/void_chunk.cpp`](https://github.com/Paranthaman-K6/limbo/blob/main/src/world/void_chunk.cpp), derived from the client-side spawn/void chunk behaviour documented on [Void World](Void-World.md).
+> **Source:** [`src/world/void_chunk.cpp`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/src/world/void_chunk.cpp), derived from the client-side spawn/void chunk behaviour documented on [Void World](Void-World.md).
 
 ### Pre-1.14 (PVN < 480ish) — Legacy `Map Chunk` / Bulk
 

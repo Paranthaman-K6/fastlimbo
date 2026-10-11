@@ -1,28 +1,17 @@
 # Protocol Support
 
-> **Source:** packet IDs were cross-checked against the public protocol references listed in [Architecture](Architecture.md) and encoded as data in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/limbo/blob/main/src/protocol/versions.h).
+> **Source:** packet IDs were cross-checked against the public protocol references listed in [Architecture](Architecture.md) and encoded as data in [`src/protocol/versions.h`](https://github.com/Paranthaman-K6/fastlimbo/blob/main/src/protocol/versions.h).
 
 ---
 
 ## Supported Protocol Versions
 
-| Minecraft Version | PVN | Era | Status |
-|-------------------|-----|-----|--------|
-| 1.8.x | 47 | `LEGACY_1_8` | ✅ Status + Login + Play |
-| 1.12.2 | 340 | `V1_12` | ✅ Status + Login + Play |
-| 1.13–1.15 | 393–578 | `V1_13_1_15` | ✅ Status + Login + Play |
-| 1.16.x | 735–754 | `V1_16` | ✅ Status + Login + Play |
-| 1.17–1.18 | 755–758 | `V1_17_1_18` | ✅ Status + Login + Play |
-| 1.19.x | 759–762 | `V1_19` | ✅ Status + Login + Play |
-| 1.20 / 1.20.1 | 763 | `V1_20_0_1` | ✅ Status + Login + Play |
-| 1.20.2 | 764 | `V1_20_2` | ✅ + Configuration |
-| 1.20.3 / 1.20.4 | 765 | `V1_20_3_4` | ✅ + GameEvent 13 |
-| 1.20.5 / 1.20.6 | 766 | `V1_20_5_6` | ✅ |
-| 1.21 / 1.21.1 | 767 | `V1_21_0_1` | ✅ Primary test target |
-| 1.21.2 / 1.21.3 | 768–769 | `V1_21_2_3` | 🟡 Matrix pending |
-| 1.21.4+ | 770+ | `V1_21_4_PLUS` | 🟡 Matrix pending |
+| Minecraft Version | PVN | Status |
+|-------------------|-----|--------|
+| 1.18 / 1.18.1 | 757 | ✅ Supported — join, schematic render and freeze verified live |
+| all other PVNs | — | ❌ Rejected at login (widen with `allowed_versions`) |
 
-**`protocol_max` in config** controls the highest PVN advertised in status response.
+**`allowed_versions` in config** controls acceptance (default `1.18, 1.18.1`); `protocol_max` in config only caps the status-response advertisement.
 
 ---
 
