@@ -27,10 +27,9 @@ int main() {
   // 1.13-1.15 distinct rows (exact release PVNs only)
   assert(playIds(393).position == 0x32 && playIds(393).abilities == 0x2E);
   assert(playIds(477).position == 0x35 && playIds(477).centerChunk == 0x40);
-  assert(playIds(481).position == 0x35 && playIds(485).position == 0x35);
+  assert(playIds(485).position == 0x35 && playIds(498).position == 0x35);
   assert(playIds(573).position == 0x36 && playIds(573).centerChunk == 0x41);
-  assert(playIds(575).position == 0x36);
-  assert(eraForPvn(498) == Era::UNKNOWN);  // no release uses 498
+  assert(playIds(575).position == 0x36 && playIds(578).position == 0x36);
   assert(playKeepAliveServerbound(393) == 0x0E && playKeepAliveServerbound(477) == 0x0F);
   // 1.16 split: 735 vs 751+
   assert(playIds(735).joinGame == 0x25 && playIds(735).position == 0x35);
@@ -51,13 +50,39 @@ int main() {
   // 770-772 row; 773/774 row; 775 row
   assert(playIds(770).position == 0x41 && playIds(770).centerChunk == 0x57);
   assert(playKeepAliveServerbound(770) == 0x1A);
+  assert(playKeepAliveServerbound(771) == 0x1B);  // 771/772 split from 770
+  assert(playKeepAliveServerbound(772) == 0x1B);  // (Via 1_21_6 SB map)
   assert(playIds(773).joinGame == 0x30 && playIds(773).centerChunk == 0x5C);
   assert(playIds(775).joinGame == 0x31 && playIds(775).position == 0x48);
   assert(playKeepAliveServerbound(775) == 0x1C);
+  // 26.2: IDs identical to 26.1 (ViaVersion v26_1to26_2, same enums both sides).
+  assert(eq(playIds(776), playIds(775)));
+  // 26.3: shifted block (ViaVersion v26_2to26_3 enums).
+  assert(playIds(777).joinGame == 0x32 && playIds(777).keepAlive == 0x2D);
+  assert(playIds(777).position == 0x49 && playIds(777).chunk == 0x2E);
+  assert(playIds(777).abilities == 0x41 && playIds(777).gameEvent == 0x27);
+  assert(playIds(777).centerChunk == 0x60);
+  assert(playIds(777).disconnect == 0x20 && playKeepAliveServerbound(777) == 0x1C);
+  // movement table (spawn freeze): 335-vs-338 split, 770-vs-771 split
+  auto mv = playMovementServerbound(335);
+  assert(mv.confirm == 0x00 && mv.pos == 0x0E && mv.posRot == 0x0F && mv.vehicle == 0x11);
+  mv = playMovementServerbound(338);
+  assert(mv.confirm == 0x00 && mv.pos == 0x0D && mv.posRot == 0x0E && mv.vehicle == 0x10);
+  mv = playMovementServerbound(47);
+  assert(mv.confirm == -1 && mv.pos == 0x04 && mv.posRot == 0x06 && mv.vehicle == -1);
+  mv = playMovementServerbound(755);
+  assert(mv.confirm == 0x00 && mv.pos == 0x11 && mv.posRot == 0x12 && mv.vehicle == 0x15);
+  mv = playMovementServerbound(770);
+  assert(mv.confirm == 0x00 && mv.pos == 0x1C && mv.posRot == 0x1D && mv.vehicle == 0x20);
+  mv = playMovementServerbound(771);
+  assert(mv.confirm == 0x00 && mv.pos == 0x1D && mv.posRot == 0x1E && mv.vehicle == 0x21);
+  mv = playMovementServerbound(776);
+  assert(mv.confirm == 0x00 && mv.pos == 0x1E && mv.posRot == 0x1F && mv.vehicle == 0x22);
   // gating
   assert(hasConfiguration(764) && !hasConfiguration(763));
   assert(needsGameEvent13(765) && !needsGameEvent13(764));
-  assert(eraForPvn(776) == Era::UNKNOWN && maxSupportedPvn() == 775);
+  assert(eraForPvn(776) == Era::V1_26_2 && eraForPvn(777) == Era::V1_26_3);
+  assert(maxSupportedPvn() == 777);
   printf("test_versions ok\n");
   return 0;
 }

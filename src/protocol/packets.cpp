@@ -66,7 +66,7 @@ std::vector<uint8_t> loginSuccessBody(int pvn, const std::array<uint8_t,16>& uui
   }
   w.str(username);
   if (pvn >= 759) w.varInt(0);            // 1.19+ properties (none)
-  if (pvn >= 766) w.boolean(false);       // 1.20.5+ strict error handling
+  if (pvn == 766 || pvn == 767) w.boolean(false);  // strict error handling (1.20.5-1.21.1 only)
   return w.b;
 }
 

@@ -42,8 +42,21 @@ int configFinishAckId(int pvn);
 // (plains) + chat_type + damage_type from minecraft-data loginPacket.json.
 std::vector<std::vector<uint8_t>> buildRegistryBlobs(int pvn);
 
+// 26.1+ `world_clock` RegistryData body (overworld + the_end, empty
+// elements), mirroring Via Protocol1_21_11To26_1. Appended by
+// buildRegistryBlobs for pvn>=775.
+std::vector<uint8_t> buildWorldClock();
+
 // Finish Configuration body: empty.
 std::vector<uint8_t> buildFinish(int pvn);
+
+// Update Tags body: tag bindings for the target's `#tag` holders (block
+// infiniburn trio + dialog pause_screen_additions always; era data-driven).
+// See registry.cpp for the wire format and (registry,tag) table.
+std::vector<uint8_t> buildTags(int pvn);
+
+// Select Known Packs body (clientbound, 766+): empty pack list.
+std::vector<uint8_t> buildKnownPacks(int pvn);
 
 // Keep Alive body: i64 id (clientbound and serverbound share the layout).
 std::vector<uint8_t> buildKeepAlive(int pvn, int64_t keepAliveId);

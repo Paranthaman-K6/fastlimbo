@@ -15,8 +15,8 @@ import socket, struct, sys
 HOST = sys.argv[1] if len(sys.argv) > 1 else "127.0.0.1"
 PORT = int(sys.argv[2]) if len(sys.argv) > 2 else 25566
 
-PVNS = [47, 335, 338, 340, 393, 401, 404, 477, 480, 481, 482, 485,
-        573, 574, 575, 735, 736, 751, 753, 754, 755, 756, 757, 758,
+PVNS = [47, 335, 338, 340, 393, 401, 404, 477, 480, 485, 490, 498,
+        573, 575, 578, 735, 736, 751, 753, 754, 755, 756, 757, 758,
         759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770,
         771, 772, 773, 774, 775]
 
@@ -74,11 +74,14 @@ def login_reaches_play(pvn):
     if pvn >= 764:
         sp(s, 0x03, b"")  # LoginAcknowledged
         fin = 0x02 if pvn < 766 else 0x03
-        for _ in range(8):  # RegistryData xN then Finish (we send 1 or 4)
+        for _ in range(40):  # RegistryData xN + Tags + KnownPacks, then Finish
             r, _ = rp(s)
-            assert r in (0x05, 0x07, fin), (pvn, hex(r))
             if r == fin:
                 break
+            # Any Configuration packet that is not a Disconnect is progress
+            # (RegistryData 0x05/0x07, Update Tags 0x08/0x09/0x0D/0x0E,
+            # Known Packs 0x0E/0x0F). Only a Disconnect means rejection.
+            assert r not in (0x01, 0x02), (pvn, hex(r))
         else:
             raise RuntimeError("no finish")
         sp(s, 0x02 if pvn < 766 else 0x03, b"")  # Finish ack

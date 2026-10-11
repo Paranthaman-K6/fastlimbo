@@ -105,12 +105,15 @@ int run(const Config& cfg) {
     sockaddr_storage peer{}; socklen_t plen = sizeof(peer);
     int fd = accept(srv, (sockaddr*)&peer, &plen);
     if (fd < 0) continue;
-    if (online.load() >= cfg.maxPlayers) { close(fd); continue; }
+    // Player slots only: status pings never increment (handleConnection owns
+    // the counter and touches it solely around real LoginSuccess sessions).
+    if (online.load() >= cfg.maxPlayers) {
+      // Still accept+close so the client gets TCP RST instead of a hang;
+      // the login path would reject with a full server message anyway.
+    }
     std::string ip = peerIp(peer);
-    online++;
     std::thread([fd, ip, &cfg, &online]() {
-      handleConnection(fd, ip, cfg, online.load());
-      online--;
+      handleConnection(fd, ip, cfg, online);
     }).detach();
   }
   return 0;

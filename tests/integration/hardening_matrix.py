@@ -63,14 +63,23 @@ STATE_LOGIN = 2
 # proto::playIds() data, mirrored rather than branched inline (versions.h is
 # lead-owned; keep the matrix's expectations as data).
 PLAY_JOIN_GAME_ID = {47: 0x01, 340: 0x23, 754: 0x24, 762: 0x28, 763: 0x28,
-                     764: 0x29, 766: 0x2B, 767: 0x2B}
+                     764: 0x29, 766: 0x2B, 767: 0x2B,
+                     # 773-776 era (0x30 row), 777+ shifted row (0x32)
+                     773: 0x30, 774: 0x30, 775: 0x31, 776: 0x31, 777: 0x32}
 PLAY_DISCONNECT_ID = {47: 0x40, 340: 0x1A, 754: 0x19, 762: 0x1A, 763: 0x1A,
-                      764: 0x1B, 766: 0x1D, 767: 0x1D}
-# registry::configIds() / configFinishAckId()
-CONFIG_REGISTRY_ID = {764: 0x05, 766: 0x07, 767: 0x07}
-CONFIG_FINISH_ID = {764: 0x02, 766: 0x03, 767: 0x03}
-CONFIG_DISCONNECT_ID = {764: 0x01, 766: 0x02, 767: 0x02}
-CONFIG_FINISH_ACK_SB = {764: 0x02, 766: 0x03, 767: 0x03}
+                      764: 0x1B, 766: 0x1D, 767: 0x1D,
+                      773: 0x20, 774: 0x20, 775: 0x20, 776: 0x20, 777: 0x20}
+# registry::configIds() / configFinishAckId(). All PVNs >= 766 share one row.
+CONFIG_REGISTRY_ID = {764: 0x05}
+CONFIG_FINISH_ID = {764: 0x02}
+CONFIG_DISCONNECT_ID = {764: 0x01}
+CONFIG_FINISH_ACK_SB = {764: 0x02}
+for _pvn in (766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777):
+    CONFIG_REGISTRY_ID[_pvn] = 0x07
+    CONFIG_FINISH_ID[_pvn] = 0x03
+    CONFIG_DISCONNECT_ID[_pvn] = 0x02
+    CONFIG_FINISH_ACK_SB[_pvn] = 0x03
+del _pvn
 
 
 # --- wire helpers (same shape as status_ping.py / ipv6_status.py) ------------
@@ -168,6 +177,11 @@ def connect(host, port, timeout):
     return sock
 
 
+def _hex(v):
+    """Format a packet id for a message; 'n/a' when the era has no table row."""
+    return "n/a" if v is None else f"{v:02x}"
+
+
 class Check:
     def __init__(self, name):
         self.name = name
@@ -255,7 +269,7 @@ def _finish_login(c, sock, pvn, has_config, prefix):
     ack_sb = CONFIG_FINISH_ACK_SB.get(pvn)
     disc_id = CONFIG_DISCONNECT_ID.get(pvn)
     saw_registry = False
-    for _ in range(16):
+    for _ in range(40):
         pid, _body = read_packet(sock)
         if pid == disc_id:
             return c.ok(f"{prefix}ack 0x03 -> "
@@ -263,6 +277,9 @@ def _finish_login(c, sock, pvn, has_config, prefix):
                         f"Config Disconnect 0x{pid:02x} (v0.1 endpoint, by design)")
         if pid == registry_id:
             saw_registry = True
+            continue
+        # Update Tags + Known Packs ride along before Finish — progress, not error.
+        if pid in (0x08, 0x09, 0x0D, 0x0E, 0x0F):
             continue
         if pid == finish_id:
             sock.sendall(frame(ack_sb))
@@ -277,8 +294,8 @@ def _finish_login(c, sock, pvn, has_config, prefix):
                           f"0x{PLAY_JOIN_GAME_ID.get(pvn, 0):02x} or Disconnect "
                           f"0x{PLAY_DISCONNECT_ID.get(pvn, 0):02x}, got 0x{pid2:02x}")
         return c.fail(f"unexpected config packet 0x{pid:02x} (want RegistryData "
-                      f"0x{registry_id:02x} / Finish 0x{finish_id:02x} / "
-                      f"Disconnect 0x{disc_id:02x})")
+                      f"0x{_hex(registry_id)} / Finish 0x{_hex(finish_id)} / "
+                      f"Disconnect 0x{_hex(disc_id)})")
     return c.fail("configuration never finished within 16 packets")
 
 

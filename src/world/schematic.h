@@ -14,7 +14,7 @@
 
 namespace limbo::schem {
 
-// NBT tag types (also used internally during gzip+decompression).
+// NBT tag types (standard big-endian NBT ids).
 enum class NbtType : uint8_t {
   End   = 0,
   Byte  = 1,
@@ -22,12 +22,13 @@ enum class NbtType : uint8_t {
   Int   = 3,
   Long  = 4,
   Float = 5,
-  String = 6,
+  Double = 6,
   ByteArray = 7,
-  List = 8,
-  Compound = 9,
-  IntArray = 10,
-  LongArray = 11
+  String = 8,
+  List = 9,
+  Compound = 10,
+  IntArray = 11,
+  LongArray = 12
 };
 
 // -------------------------------------------------------------------
@@ -56,6 +57,7 @@ struct Schem {
   int w = 0;   // width (X)
   int h = 0;   // height (Y)
   int l = 0;   // length (Z)
+  int version = 0;  // Sponge Version (2 or 3)
   int dataVersion = 0;
   std::array<int, 3> off = {0, 0, 0}; // offset {x, y, z}
 

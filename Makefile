@@ -12,7 +12,7 @@ SRC := $(shell find src -name '*.cpp') third_party/miniz.c
 OBJ := $(SRC:%.cpp=build/obj/%.o)
 BIN := build/limbo
 
-TEST_BINS := build/test_varint build/test_buffer build/test_velocity build/test_nbt build/test_registry build/test_void_chunk build/test_play build/test_limits build/test_schematic build/test_versions build/test_miniz
+TEST_BINS := build/test_varint build/test_buffer build/test_velocity build/test_nbt build/test_registry build/test_void_chunk build/test_play build/test_limits build/test_schematic build/test_versions build/test_miniz build/test_skin build/test_version_policy
 
 .PHONY: all clean test
 
@@ -70,6 +70,14 @@ build/test_versions: tests/test_versions.cpp
 	@mkdir -p build
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
+build/test_skin: tests/test_skin.cpp src/server/skin.cpp src/protocol/buffer.cpp src/security/velocity.cpp
+	@mkdir -p build
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
+build/test_version_policy: tests/test_version_policy.cpp src/server/version_policy.cpp
+	@mkdir -p build
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
 test: $(BIN) $(TEST_BINS)
 	./build/test_varint
 	./build/test_buffer
@@ -82,6 +90,8 @@ test: $(BIN) $(TEST_BINS)
 	./build/test_schematic
 	./build/test_versions
 	./build/test_miniz
+	./build/test_skin
+	./build/test_version_policy
 	python3 tests/test_velocity_hmac.py
 
 clean:

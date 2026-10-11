@@ -385,6 +385,7 @@ std::optional<Schem> loadSchem(const std::string& path, Error& err) {
   s.w = (int)w;
   s.h = (int)h;
   s.l = (int)l;
+  s.version = (int)ver;
   s.dataVersion = (int)dataVersion;
   s.off = {0, 0, 0};
   auto oit = top->kids.find("Offset");

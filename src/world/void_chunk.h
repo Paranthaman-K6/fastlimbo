@@ -37,11 +37,25 @@ std::vector<uint8_t> buildChunkBody(int pvn, int chunkX, int chunkZ,
 // Legacy entry point: pure void (no paste). Used by unit tests.
 std::vector<uint8_t> buildVoidChunkBody(int pvn, int chunkX, int chunkZ);
 
+// Standalone Update Light body for 1.17/1.17.1 (packet 0x25). Empty for all
+// other PVNs (1.18+ embeds light in the chunk; older eras carry it inside
+// Map Chunk). Full-bright void: empty data masks, all 26 sections (24 + 2
+// edge) in the empty masks. Body only — caller frames with playUpdateLightId.
+std::vector<uint8_t> buildUpdateLightBody(int pvn, int chunkX, int chunkZ);
+
 // Spawn schematic selected at startup (config schematic_path). Call once from
 // main before serving; loadSpawnSchematic parses it (void fallback on error).
 void setSpawnSchematic(const std::string& path);
 bool loadSpawnSchematic(std::string& err);  // true when void-only or loaded
+// Human-readable startup analysis of the loaded schematic (one line per
+// entry, no prefix). Empty when void-only / not loaded. Covers dims, caps,
+// palette histogram, placement, world-fit, chunks, spawn and warnings.
+std::vector<std::string> describeSpawnSchematic();
 std::optional<PasteCtx> spawnPaste();       // paste ctx for chunk (0,0), if any
-double spawnY();  // feet Y: 400.0 void, or one above the pasted platform
+double spawnY();  // feet Y: 400.0 void, or highest solid near (8,8) + 1
+double spawnYAt(double wx, double wz);  // feet Y over a 7x7 footprint at wx,wz
+// Inclusive chunk range covered by the spawn paste, from its corner blocks.
+// Void / no schematic: just (0,0). Used to size the login chunk burst.
+void spawnChunkRange(int& minCx, int& maxCx, int& minCz, int& maxCz);
 
 }  // namespace limbo::world
