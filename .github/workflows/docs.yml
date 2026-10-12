@@ -49,7 +49,7 @@ jobs:
       - name: Audit internal links and anchors
         # --base is the deployment path from site_url in mkdocs.yml
         # (project Pages sites are served from /<repo>/).
-        run: python3 tools/check_site_links.py site --base /limbo/
+        run: python3 tools/check_site_links.py site --base /fastlimbo/
 
       - name: Verify copyright headers are present
         run: python3 tools/add_copyright_header.py --check
